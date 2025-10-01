@@ -1,86 +1,101 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.U2D;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using TMPro;
 using static Utils;
 using static GameConstants;
+using VInspector;
 
 public class MenuManager : MonoBehaviour
 {
-    // Main Menu
+    [Tab("Main Menu")]
     [SerializeField] GameObject menu, loadingMenu, shopMenu, optionMenu, aboutText, back;
     [SerializeField] Image loadingBar, background;
     [SerializeField] TextMeshProUGUI loadingText;
-    [SerializeField] AudioSource audioSource; [SerializeField] AudioClip uiSelectSound;
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip uiSelectSound;
 
-    // Shop Menu
-    [SerializeField] GameObject shopMenu0, shopMenu1, shopMenu2, shopMenu3;
+    [Tab("Shop Menu")]
+    [SerializeField] SpriteAtlas spriteAtlas;
+    ShopType shopType;
+    [SerializeField] GameObject shopCosmetics, shopSkills;
+    [SerializeField] Image cosmeticPreviewImage;
+    [SerializeField] GameObject cosmeticBuyButton;
+    [SerializeField] TextMeshProUGUI[] cosmeticStyleTexts;
+    [SerializeField] TextMeshProUGUI[] skillLevelTexts;
+    [SerializeField] GameObject[] skillBuyButtons;
+    int selectedItemIndex, selectedItemCost;
+
     [SerializeField] TextMeshProUGUI coinText;
-    [SerializeField] GameObject[] birds, birdBuyButtons, backgrounds, backgroundBuyButtons, obstacles, obstacleBuyButtons, skillBuyButtons;
-    [SerializeField] TextMeshProUGUI[] birdStyleTexts, backgroundStyleTexts, obstacleStyleTexts, skillLevelTexts;
     [SerializeField] AudioClip[] buySounds;
-    bool[] birdsBought = new bool[8], backgroundsBought = new bool[8], obstaclesBought = new bool[6];
-    int coin, birdSelected, backgroundSelected, obstacleSelected, skill1Level, skill2Level;
 
-    // Options Menu
+    // These stats are saved and loaded using PlayerPrefs
+    int coin;
+    bool[] birdsBought = new bool[8], backgroundsBought = new bool[8], obstaclesBought = new bool[6];
+    int birdSelected, backgroundSelected, obstacleSelected;
+    int skill1Level, skill2Level;
+
+    [Tab("Options Menu")]
     [SerializeField] TextMeshProUGUI[] difficultyTexts;
     [SerializeField] TextMeshProUGUI fpsText;
     [SerializeField] GameObject[] soundsCheckmarks, fpsCheckmarks, birdsCheckmarks;
+
+    // These stats are saved and loaded using PlayerPrefs
     int difficulty, showFps, spawnBirds;
 
-    void Start()
-    {
-        LoadStats();
-        if (showFps == 1) InvokeRepeating(nameof(ShowFps), 0, 1f);
-
-#if UNITY_ANDROID || UNITY_IOS
-        exit.SetActive(false);
-#endif
-    }
+    void Start() => LoadStats();
 
     void SaveStats()
     {
-        PlayerPrefs.SetInt("Coin", coin);
+        // Save selected cosmetics
         PlayerPrefs.SetInt("BirdSelected", birdSelected);
-        for (int i = 1; i < birdsBought.Length; i++) PlayerPrefs.SetInt($"BirdsBought{i}", birdsBought[i] ? 1 : 0);
         PlayerPrefs.SetInt("BackgroundSelected", backgroundSelected);
-        for (int i = 1; i < backgroundsBought.Length; i++) PlayerPrefs.SetInt($"BackgroundsBought{i}", backgroundsBought[i] ? 1 : 0);
         PlayerPrefs.SetInt("ObstacleSelected", obstacleSelected);
+
+        // Save bought cosmetics and skills
+        for (int i = 1; i < birdsBought.Length; i++) PlayerPrefs.SetInt($"BirdsBought{i}", birdsBought[i] ? 1 : 0);
+        for (int i = 1; i < backgroundsBought.Length; i++) PlayerPrefs.SetInt($"BackgroundsBought{i}", backgroundsBought[i] ? 1 : 0);
         for (int i = 1; i < obstaclesBought.Length; i++) PlayerPrefs.SetInt($"ObstaclesBought{i}", obstaclesBought[i] ? 1 : 0);
         PlayerPrefs.SetInt("Skill1Level", skill1Level);
         PlayerPrefs.SetInt("Skill2Level", skill2Level);
+
+        // Save options
         PlayerPrefs.SetInt("Difficulty", difficulty);
         PlayerPrefs.SetFloat("GlobalVolume", AudioListener.volume);
         PlayerPrefs.SetInt("ShowFps", showFps);
         PlayerPrefs.SetInt("SpawnBirds", spawnBirds);
+
+        PlayerPrefs.SetInt("Coin", coin);
         PlayerPrefs.Save();
     }
 
     void LoadStats()
     {
-        // Shop Menu
+        /* Shop Menu */
+        // Load coins (100 by default)
         coin = PlayerPrefs.GetInt("Coin", 100);
         coinText.text = coin.ToString();
 
+        // Load cosmetics (first item is always unlocked and selected by default)
+        birdsBought[0] = true; backgroundsBought[0] = true; obstaclesBought[0] = true;
         birdSelected = PlayerPrefs.GetInt("BirdSelected", 0);
-        birdsBought[0] = true;
-        for (int i = 1; i < birdsBought.Length; i++) birdsBought[i] = PlayerPrefs.GetInt($"BirdsBought{i}", 0) == 1;
-
         backgroundSelected = PlayerPrefs.GetInt("BackgroundSelected", 0);
-        backgroundsBought[0] = true;
-        for (int i = 1; i < backgroundsBought.Length; i++) backgroundsBought[i] = PlayerPrefs.GetInt($"BackgroundsBought{i}", 0) == 1;
-
         obstacleSelected = PlayerPrefs.GetInt("ObstacleSelected", 0);
-        obstaclesBought[0] = true;
+
+        for (int i = 1; i < birdsBought.Length; i++) birdsBought[i] = PlayerPrefs.GetInt($"BirdsBought{i}", 0) == 1;
+        for (int i = 1; i < backgroundsBought.Length; i++) backgroundsBought[i] = PlayerPrefs.GetInt($"BackgroundsBought{i}", 0) == 1;
         for (int i = 1; i < obstaclesBought.Length; i++) obstaclesBought[i] = PlayerPrefs.GetInt($"ObstaclesBought{i}", 0) == 1;
 
+        // Load skills (level 1 by default)
         skill1Level = PlayerPrefs.GetInt("Skill1Level", 1);
         skill2Level = PlayerPrefs.GetInt("Skill2Level", 1);
 
-        // Options Menu
+        /* Options Menu */
+        // Difficulty (Easy by default)
         difficulty = PlayerPrefs.GetInt("Difficulty", 1);
-        difficultyTexts[difficulty - 1].color = Color.yellow;
+        difficultyTexts[difficulty].color = Color.yellow;
 
         AudioListener.volume = PlayerPrefs.GetFloat("GlobalVolume", 1);
         if (AudioListener.volume == 1) soundsCheckmarks[0].SetActive(true);
@@ -94,6 +109,8 @@ public class MenuManager : MonoBehaviour
         spawnBirds = PlayerPrefs.GetInt("SpawnBirds", 1);
         if (spawnBirds == 1) birdsCheckmarks[0].SetActive(true);
         else birdsCheckmarks[1].SetActive(true);
+
+        if (showFps == 1) InvokeRepeating(nameof(ShowFps), 0, 1f);
     }
     void OnApplicationQuit() { SaveStats(); }
 
@@ -136,160 +153,95 @@ public class MenuManager : MonoBehaviour
             back.SetActive(false);
             menu.SetActive(true);
             shopMenu.SetActive(false);
-            shopMenu0.SetActive(false);
-            shopMenu1.SetActive(false);
-            shopMenu2.SetActive(false);
-            shopMenu3.SetActive(false);
+            shopCosmetics.SetActive(false);
+            shopSkills.SetActive(false);
             optionMenu.SetActive(false);
             aboutText.SetActive(false);
         }
     }
 
-    IEnumerator LoadSceneAsync()
-    {
-        AsyncOperation operation = SceneManager.LoadSceneAsync(1);
-        operation.allowSceneActivation = false;  // Prevent auto scene switch
-
-        // Wait until the scene is fully loaded in the background
-        while (operation.progress < 0.9f)
-        {
-            float progress = operation.progress / 0.9f;  // Normalize to 0-1
-            loadingText.text = $"Loading {Mathf.RoundToInt(progress * 100)}%";
-            loadingBar.fillAmount = progress;
-            yield return null;
-        }
-
-        // Scene is ready - show 100% briefly then activate
-        loadingText.text = "Loading 100%";
-        loadingBar.fillAmount = 1f;
-        // yield return new WaitForSeconds(0.2f);  // Brief moment to show 100% (optional)
-        operation.allowSceneActivation = true;  // Switch to the loaded scene
-    }
-
-    // Shop Menu
-    public void ShopSelection(int index)
+    // Opens the cosmetics shop (Birds, Backgrounds, Obstacles) and sets up UI
+    public void OpenCosmeticShop(int index)
     {
         audioSource.PlayOneShot(uiSelectSound);
-        if (index == 0)  // Bird Models
-        {
-            shopMenu.SetActive(false);
-            shopMenu0.SetActive(true);
-            foreach (GameObject bird in birds) bird.SetActive(false);  // Deactivate all Bird icons first
-            birds[birdSelected].SetActive(true);  // Activate only the selected Bird icon
-            // Unlocked Bird style texts are white and locked texts are grey
-            for (int i = 0; i < birdStyleTexts.Length; i++) birdStyleTexts[i].color = birdsBought[i] ? Color.white : Color.grey;
-            birdStyleTexts[birdSelected].color = Color.yellow;  // Selected Bird text is yellow
-        }
-        else if (index == 1)  // Backgrounds
-        {
-            shopMenu.SetActive(false);
-            shopMenu1.SetActive(true);
-            foreach (GameObject background in backgrounds) background.SetActive(false);  // Deactivate all Background icons first
-            backgrounds[backgroundSelected].SetActive(true);  // Activate only the selected Background icon
-            // Unlocked Background style texts are white and locked texts are grey
-            for (int i = 0; i < backgroundStyleTexts.Length; i++) backgroundStyleTexts[i].color = backgroundsBought[i] ? Color.white : Color.grey;
-            backgroundStyleTexts[backgroundSelected].color = Color.yellow;  // Selected Background text is yellow
-        }
-        else if (index == 2)  // Obstacles
-        {
-            shopMenu.SetActive(false);
-            shopMenu2.SetActive(true);
-            foreach (GameObject obstacle in obstacles) obstacle.SetActive(false);  // Deactivate all Obstacle icons first
-            obstacles[obstacleSelected].SetActive(true);  // Activate only the selected Obstacle icon
-            // Unlocked Obstacle style texts are white and locked texts are grey
-            for (int i = 0; i < obstacleStyleTexts.Length; i++) obstacleStyleTexts[i].color = obstaclesBought[i] ? Color.white : Color.grey;
-            obstacleStyleTexts[obstacleSelected].color = Color.yellow;  // Selected Obstacle text is yellow
-        }
-        else if (index == 3)  // Skills
-        {
-            shopMenu.SetActive(false);
-            shopMenu3.SetActive(true);
-            if (skill1Level >= 3) skillBuyButtons[0].SetActive(false);
-            if (skill2Level >= 3) skillBuyButtons[1].SetActive(false);
-            skillLevelTexts[0].text = skill1Level + " / 3";
-            skillLevelTexts[1].text = skill2Level + " / 3";
-        }
+        shopMenu.SetActive(false);
+        shopCosmetics.SetActive(true);
+        cosmeticBuyButton.SetActive(false);
+        shopType = (ShopType)index;
+
+        // Determine item count and set text visibility (how many)
+        int itemCount = shopType == ShopType.Bird ? 8 : shopType == ShopType.Background ? 8 : shopType == ShopType.Obstacle ? 6 : 0;
+        for (int i = 0; i < cosmeticStyleTexts.Length; i++)
+            cosmeticStyleTexts[i].gameObject.SetActive(i < itemCount);
+
+        // Update selected item cost based on shop type
+        selectedItemCost = shopType == ShopType.Bird ? BirdCost : shopType == ShopType.Background ? BackgroundCost : ObstacleCost;
+        // Set initial selected item index to current selection
+        selectedItemIndex = shopType == ShopType.Bird ? birdSelected : shopType == ShopType.Background ? backgroundSelected : obstacleSelected;
+        // Adjust preview image size for obstacles (taller)
+        cosmeticPreviewImage.rectTransform.sizeDelta = shopType == ShopType.Obstacle ? new Vector2(141, 512) : new Vector2(512, 512);
+
+        UpdateCosmeticItemUI();  // Update item UI (colors, preview image, buy button)
     }
 
-    public void BirdSelection(int index)
+    // Updates cosmetic item UI: text colors (yellow for bought+selected, white for bought, grey for locked), preview image, and buy button
+    void UpdateCosmeticItemUI()
+    {
+        int selectedIndex = shopType == ShopType.Bird ? birdSelected : shopType == ShopType.Background ? backgroundSelected : obstacleSelected;
+
+        for (int i = 0; i < cosmeticStyleTexts.Length; i++)
+            if (cosmeticStyleTexts[i].gameObject.activeSelf)
+                cosmeticStyleTexts[i].color = i == selectedIndex && (shopType == ShopType.Bird ? birdsBought[i] : shopType == ShopType.Background ? backgroundsBought[i] : obstaclesBought[i]) ? Color.yellow : (shopType == ShopType.Bird ? birdsBought[i] : shopType == ShopType.Background ? backgroundsBought[i] : obstaclesBought[i]) ? Color.white : Color.grey;
+
+        cosmeticPreviewImage.sprite = spriteAtlas.GetSprite(shopType.ToString() + selectedItemIndex);
+    }
+
+    // Selects a cosmetic item and updates UI if the item is bought
+    public void SelectCosmeticItem(int index)
     {
         audioSource.PlayOneShot(uiSelectSound);
-        foreach (GameObject bird in birds) bird.SetActive(false);
-        birds[index].SetActive(true);
-        birdSelected = birdsBought[index] ? index : birdSelected;
-        for (int i = 0; i < birdStyleTexts.Length; i++) birdStyleTexts[i].color = birdsBought[i] ? Color.white : Color.grey;
-        birdStyleTexts[birdSelected].color = Color.yellow;
-        birdBuyButtons[index].SetActive(birdsBought[index] ? false : true);
+        selectedItemIndex = index;
+
+        // Update selected index based on shop type if the item is bought
+        bool isBought = shopType == ShopType.Bird ? birdsBought[index] : shopType == ShopType.Background ? backgroundsBought[index] : obstaclesBought[index];
+        if (isBought)  // If bought, select it
+        {
+            cosmeticBuyButton.SetActive(false);
+            if (shopType == ShopType.Bird) birdSelected = index;
+            else if (shopType == ShopType.Background) backgroundSelected = index;
+            else if (shopType == ShopType.Obstacle) obstacleSelected = index;
+        }
+        else cosmeticBuyButton.SetActive(true);
+
+        UpdateCosmeticItemUI();
     }
 
-    public void BackgroundSelection(int index)
+    public void BuySelectedItem()
     {
-        audioSource.PlayOneShot(uiSelectSound);
-        foreach (GameObject background in backgrounds) background.SetActive(false);
-        backgrounds[index].SetActive(true);
-        backgroundSelected = backgroundsBought[index] ? index : backgroundSelected;
-        for (int i = 0; i < backgroundStyleTexts.Length; i++) backgroundStyleTexts[i].color = backgroundsBought[i] ? Color.white : Color.grey;
-        backgroundStyleTexts[backgroundSelected].color = Color.yellow;
-        backgroundBuyButtons[index].SetActive(backgroundsBought[index] ? false : true);
-    }
-
-    public void ObstacleSelection(int index)
-    {
-        audioSource.PlayOneShot(uiSelectSound);
-        foreach (GameObject obstacle in obstacles) obstacle.SetActive(false);
-        obstacles[index].SetActive(true);
-        obstacleSelected = obstaclesBought[index] ? index : obstacleSelected;
-        for (int i = 0; i < obstacleStyleTexts.Length; i++) obstacleStyleTexts[i].color = obstaclesBought[i] ? Color.white : Color.grey;
-        obstacleStyleTexts[obstacleSelected].color = Color.yellow;
-        obstacleBuyButtons[index].SetActive(obstaclesBought[index] ? false : true);
-    }
-
-    public void BuyBird(int index)
-    {
-        if (coin >= BirdCost)
+        if (coin >= selectedItemCost)
         {
             audioSource.PlayOneShot(buySounds[Random.Range(0, buySounds.Length)]);
-            coin -= BirdCost;
+            coin -= selectedItemCost;
             coinText.text = coin.ToString();
-            birdsBought[index] = true;
-            birdStyleTexts[index].color = Color.white;
-            birdBuyButtons[index].SetActive(false);
-            birdSelected = index;
-            for (int i = 0; i < birdStyleTexts.Length; i++) birdStyleTexts[i].color = birdsBought[i] ? Color.white : Color.grey;
-            birdStyleTexts[index].color = Color.yellow;
+            cosmeticBuyButton.SetActive(false);
+
+            if (shopType == ShopType.Bird) { birdsBought[selectedItemIndex] = true; birdSelected = selectedItemIndex; }
+            else if (shopType == ShopType.Background) { backgroundsBought[selectedItemIndex] = true; backgroundSelected = selectedItemIndex; }
+            else if (shopType == ShopType.Obstacle) { obstaclesBought[selectedItemIndex] = true; obstacleSelected = selectedItemIndex; }
+
+            UpdateCosmeticItemUI();
         }
     }
 
-    public void BuyBackground(int index)
+    public void OpenSkillShop()
     {
-        if (coin >= BackgroundCost)
-        {
-            audioSource.PlayOneShot(buySounds[Random.Range(0, buySounds.Length)]);
-            coin -= BackgroundCost;
-            coinText.text = coin.ToString();
-            backgroundsBought[index] = true;
-            backgroundStyleTexts[index].color = Color.white;
-            backgroundBuyButtons[index].SetActive(false);
-            backgroundSelected = index;
-            for (int i = 0; i < backgroundStyleTexts.Length; i++) backgroundStyleTexts[i].color = backgroundsBought[i] ? Color.white : Color.grey;
-            backgroundStyleTexts[index].color = Color.yellow;
-        }
-    }
-
-    public void BuyObstacle(int index)
-    {
-        if (coin >= ObstacleCost)
-        {
-            audioSource.PlayOneShot(buySounds[Random.Range(0, buySounds.Length)]);
-            coin -= ObstacleCost;
-            coinText.text = coin.ToString();
-            obstaclesBought[index] = true;
-            obstacleStyleTexts[index].color = Color.white;
-            obstacleBuyButtons[index].SetActive(false);
-            obstacleSelected = index;
-            for (int i = 0; i < obstacleStyleTexts.Length; i++) obstacleStyleTexts[i].color = obstaclesBought[i] ? Color.white : Color.grey;
-            obstacleStyleTexts[index].color = Color.yellow;
-        }
+        audioSource.PlayOneShot(uiSelectSound);
+        shopMenu.SetActive(false);
+        shopSkills.SetActive(true);
+        if (skill1Level >= 3) skillBuyButtons[0].SetActive(false);
+        if (skill2Level >= 3) skillBuyButtons[1].SetActive(false);
+        skillLevelTexts[0].text = skill1Level + " / 3";
+        skillLevelTexts[1].text = skill2Level + " / 3";
     }
 
     public void BuySkill(int index)
@@ -339,4 +291,25 @@ public class MenuManager : MonoBehaviour
         }
     }
     void ShowFps() { fpsText.text = "Fps: " + Mathf.RoundToInt(1 / Time.deltaTime).ToString(); }
+
+    IEnumerator LoadSceneAsync()
+    {
+        AsyncOperation operation = SceneManager.LoadSceneAsync(1);
+        operation.allowSceneActivation = false;  // Prevent auto scene switch
+
+        // Wait until the scene is fully loaded in the background
+        while (operation.progress < 0.9f)
+        {
+            float progress = operation.progress / 0.9f;  // Normalize to 0-1
+            loadingText.text = $"Loading {Mathf.RoundToInt(progress * 100)}%";
+            loadingBar.fillAmount = progress;
+            yield return null;
+        }
+
+        // Scene is ready - show 100% briefly then activate
+        loadingText.text = "Loading 100%";
+        loadingBar.fillAmount = 1f;
+        // yield return new WaitForSeconds(0.2f);  // Brief moment to show 100% (optional)
+        operation.allowSceneActivation = true;  // Switch to the loaded scene
+    }
 }

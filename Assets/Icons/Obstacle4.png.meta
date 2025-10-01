@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 2e5ed8795d6825a4c8fbdbdfaf6e136e
+guid: 277e2b576dd59b349a24fccbff219a77
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 972991712983674599
-    second: SunAndMoon_0
+      213: -4774277729412892171
+    second: Pipe5_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: SunAndMoon
+      name: Obstacle4
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 426
-        height: 440
+        width: 152
+        height: 552
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7ee6acdcec2c08d00800000000000000
-      internalID: 972991712983674599
+      spriteID: 5f9394743bb5ebdb0800000000000000
+      internalID: -4774277729412892171
       vertices: []
       indices: 
       edges: []
@@ -138,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 31673ad792495ea4aa86ca4d2bd06893
+    spriteID: d3f0707cc5cde5d4f9b07c4e2a18df85
     internalID: 0
     vertices: []
     indices: 
@@ -146,7 +146,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      SunAndMoon: 972991712983674599
+      Obstacle4: -4774277729412892171
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

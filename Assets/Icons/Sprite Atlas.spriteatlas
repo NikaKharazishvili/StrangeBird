@@ -57,18 +57,26 @@ SpriteAtlas:
     - 7cc9be0152533414388436a34a005a42: 8530889235992783434
     - 7aacad2106cbaf04f814fe0170b85a7e: 21300000
     - 0fedcc1458f4e7c428c12a7d2a1bc870: 4700479650939307432
+    - 9b92ad06535074245a1832d7985ec7d9: 21300000
     - 020b5056808082a49819497d5a280c8f: 2563034545565252342
     - cab8cc86f708fa04389fd47fee28d66c: 649223268058989734
     - 277e2b576dd59b349a24fccbff219a77: -4774277729412892171
     - 1b12b977461d13a458ad21d1d16d4fad: 21300000
     - 1cacc6b716b8d654fb37b38e11de5079: 5172034754928514665
+    - 4e95e7087efe82a4fb96b240e2dd300f: 21300000
+    - eaa4643891e5b4245a459570b2c8f756: 21300000
     - c1929dc8e833fef4a87e2387c0574e98: -617292684547584248
     - fd70f9d80889df74e8e3c7a1ac0aab57: 8344324037188607793
+    - 5f04f039b6aec3c4f8ac6795b4f1d282: 21300000
+    - 9f811c49e9016e542aaf30234bca842e: 21300000
     - 2e5ed8795d6825a4c8fbdbdfaf6e136e: 972991712983674599
     - f9acab3a82082d144a24e3a467b6dcac: -4295039307428948894
+    - 0d07606a775859b4eacba4286687a0c5: 21300000
+    - d52ebbbaefbc92c4980f61ee436ac59f: 21300000
     - db5e211ba5b640948b22e0526a2a4ad8: 7282461348544508605
     - e110714b7ce1524489ccb663e3a7d20f: -1134032105938053371
     - 135a12abc6aead84b95993e9c0b4466c: -8751478761456823632
+    - d33b36fb58fc3fd4996bdf293e7f367f: 21300000
     - 9c588f5ce2b1fe942a179fc01ddbf6f5: -4006989438637086008
     - d18d747c529ed5448ac1a93deb98098c: 7826949717507848784
     - ed356eec752c06d499ab8f57848f10ac: 21300000
@@ -89,18 +97,26 @@ SpriteAtlas:
   - {fileID: 8530889235992783434, guid: 7cc9be0152533414388436a34a005a42, type: 3}
   - {fileID: 21300000, guid: 7aacad2106cbaf04f814fe0170b85a7e, type: 3}
   - {fileID: 4700479650939307432, guid: 0fedcc1458f4e7c428c12a7d2a1bc870, type: 3}
+  - {fileID: 21300000, guid: 9b92ad06535074245a1832d7985ec7d9, type: 3}
   - {fileID: 2563034545565252342, guid: 020b5056808082a49819497d5a280c8f, type: 3}
   - {fileID: 649223268058989734, guid: cab8cc86f708fa04389fd47fee28d66c, type: 3}
   - {fileID: -4774277729412892171, guid: 277e2b576dd59b349a24fccbff219a77, type: 3}
   - {fileID: 21300000, guid: 1b12b977461d13a458ad21d1d16d4fad, type: 3}
   - {fileID: 5172034754928514665, guid: 1cacc6b716b8d654fb37b38e11de5079, type: 3}
+  - {fileID: 21300000, guid: 4e95e7087efe82a4fb96b240e2dd300f, type: 3}
+  - {fileID: 21300000, guid: eaa4643891e5b4245a459570b2c8f756, type: 3}
   - {fileID: -617292684547584248, guid: c1929dc8e833fef4a87e2387c0574e98, type: 3}
   - {fileID: 8344324037188607793, guid: fd70f9d80889df74e8e3c7a1ac0aab57, type: 3}
+  - {fileID: 21300000, guid: 5f04f039b6aec3c4f8ac6795b4f1d282, type: 3}
+  - {fileID: 21300000, guid: 9f811c49e9016e542aaf30234bca842e, type: 3}
   - {fileID: 972991712983674599, guid: 2e5ed8795d6825a4c8fbdbdfaf6e136e, type: 3}
   - {fileID: -4295039307428948894, guid: f9acab3a82082d144a24e3a467b6dcac, type: 3}
+  - {fileID: 21300000, guid: 0d07606a775859b4eacba4286687a0c5, type: 3}
+  - {fileID: 21300000, guid: d52ebbbaefbc92c4980f61ee436ac59f, type: 3}
   - {fileID: 7282461348544508605, guid: db5e211ba5b640948b22e0526a2a4ad8, type: 3}
   - {fileID: -1134032105938053371, guid: e110714b7ce1524489ccb663e3a7d20f, type: 3}
   - {fileID: -8751478761456823632, guid: 135a12abc6aead84b95993e9c0b4466c, type: 3}
+  - {fileID: 21300000, guid: d33b36fb58fc3fd4996bdf293e7f367f, type: 3}
   - {fileID: -4006989438637086008, guid: 9c588f5ce2b1fe942a179fc01ddbf6f5, type: 3}
   - {fileID: 7826949717507848784, guid: d18d747c529ed5448ac1a93deb98098c, type: 3}
   - {fileID: 21300000, guid: ed356eec752c06d499ab8f57848f10ac, type: 3}
@@ -113,36 +129,44 @@ SpriteAtlas:
   - {fileID: 6816376378330430380, guid: 5704190ff1f282e4f9b1e4e8bff9d413, type: 3}
   - {fileID: 7770832530048825759, guid: 8e093acfbf8aef642a7b576662a3534f, type: 3}
   m_PackedSpriteNamesToIndex:
-  - Background4_0
+  - Background3
   - Coin(6)
-  - Pipe4_0
+  - Obstacle3
   - Coin(3)
-  - Skill2_0
+  - Skill2
   - Coin(4)
-  - Background8_0
-  - CheckmarkBackground_0
-  - Button_0
-  - Pipe5_0
+  - Background7
+  - Bird0
+  - CheckmarkBackground
+  - Button
+  - Obstacle4
   - Coin(1)
-  - Background6_0
-  - Checkmark1_0
-  - Background3_0
-  - SunAndMoon_0
-  - Skill1_0
-  - Background2_0
-  - Loading_0
-  - Pipe2_0
-  - Checkmark2_0
-  - Chat_0
+  - Background5
+  - Bird6
+  - Bird2
+  - Checkmark1
+  - Background2
+  - Bird1
+  - Bird3
+  - SunAndMoon
+  - Skill1
+  - Bird4
+  - Bird5
+  - Background1
+  - Loading
+  - Obstacle1
+  - Bird7
+  - Checkmark2
+  - Chat
   - Coin(2)
-  - Background5_0
+  - Background4
   - Coin(5)
-  - Background7_0
-  - Background1_0
-  - Pipe3_0
-  - Background_0
-  - Pipe1_0
-  - Pipe6_0
+  - Background6
+  - Background0
+  - Obstacle2
+  - Background
+  - Obstacle0
+  - Obstacle5
   m_RenderDataMap: {}
   m_Tag: Sprite Atlas
   m_IsVariant: 0

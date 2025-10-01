@@ -6,14 +6,14 @@ public sealed class SpriteAtlasLoader : MonoBehaviour
 {
     [SerializeField] SpriteAtlas spriteAtlas;
     enum SpriteType { Background, Obstacle }
-    [SerializeField] SpriteRenderer sprite;
     [SerializeField] SpriteType type;
+    [SerializeField] SpriteRenderer sprite;
 
     void Awake()
     {
         if (type == SpriteType.Background)
-            sprite.sprite = spriteAtlas.GetSprite("Background" + (PlayerPrefs.GetInt("BackgroundSelected", 0) + 1) + "_0");
+            sprite.sprite = spriteAtlas.GetSprite("Background" + PlayerPrefs.GetInt("BackgroundSelected", 0));
         else
-            sprite.sprite = spriteAtlas.GetSprite("Pipe" + (PlayerPrefs.GetInt("ObstacleSelected", 0) + 1) + "_0");
+            sprite.sprite = spriteAtlas.GetSprite("Obstacle" + PlayerPrefs.GetInt("ObstacleSelected", 0));
     }
 }

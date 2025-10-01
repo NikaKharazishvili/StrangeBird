@@ -1,6 +1,8 @@
 // Contains all magic numbers used throughout the game for easy adjustment and maintenance
 public static class GameConstants
 {
+    public enum ShopType : byte { Bird = 1, Background = 2, Obstacle = 3, Skill = 4 }
+
     // Costs
     public const int BirdCost = 50;
     public const int BackgroundCost = 50;
