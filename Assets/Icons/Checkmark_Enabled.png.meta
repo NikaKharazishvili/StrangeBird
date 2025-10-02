@@ -113,7 +113,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Checkmark1
+      name: Checkmark_Enabled
       rect:
         serializedVersion: 2
         x: 0
@@ -146,7 +146,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Checkmark1: -617292684547584248
+      Checkmark_Enabled: -617292684547584248
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] AudioSource audioSource;
     [SerializeField] AudioClip newHighScoreSound, uiSelectSound;
     [SerializeField] int minutes = 0, hours = 12, score, highScore, coin, currentCoins, totalDeaths, backgroundSelected, skill1Level;
-    [SerializeField] float obstaclesSpawnDelay, elapsedTime;
+    [SerializeField] float obstaclesSpawnDelay;
     bool newHighScore, spawnBirdsOption;
 
     void Start()
@@ -29,18 +29,16 @@ public class GameManager : MonoBehaviour
         LoadStats();
         coinText.text = coin.ToString();
         scoreText.text = score + " / " + highScore;
+
+        spawnBirdsOption = PlayerPrefs.GetInt("SpawnBirds") == 1;
+        if (spawnBirdsOption) InvokeRepeating(nameof(BirdsPool), 5f, 5f);
+
         fpsText.gameObject.SetActive(PlayerPrefs.GetInt("ShowFps") == 1);
 
-        obstaclesSpawnDelay = difficulty == 1 ? EasyObstaclesSpawnDelay : difficulty == 2 ? MediumObstaclesSpawnDelay : HardObstaclesSpawnDelay;
-        spawnBirdsOption = PlayerPrefs.GetInt("SpawnBirds") == 1;
-        if (spawnBirdsOption) InvokeRepeating(nameof(BirdsPool), 5f, 5f);  // Just spawns decorative flying Birds
+        obstaclesSpawnDelay = difficulty == 0 ? EasyObstaclesSpawnDelay : difficulty == 1 ? MediumObstaclesSpawnDelay : HardObstaclesSpawnDelay;
         InvokeRepeating(nameof(ObstaclesPool), obstaclesSpawnDelay, obstaclesSpawnDelay);
         InvokeRepeating(nameof(DayNightCycle), DayNightCycleDelay, DayNightCycleDelay);  // Day/Night cycle and increase of score by difficulty
         InvokeRepeating(nameof(GainScore), GainScoreDelay, GainScoreDelay);
-
-#if UNITY_ANDROID || UNITY_IOS
-        exit.SetActive(false);
-#endif
     }
 
     void LoadStats()
@@ -61,7 +59,7 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.SetInt("TotalDeaths", totalDeaths);
         PlayerPrefs.Save();
     }
-    void OnApplicationQuit() { SaveStats(); }
+    void OnApplicationQuit() => SaveStats();
 
     void CoinsPool()
     {
@@ -117,7 +115,7 @@ public class GameManager : MonoBehaviour
 
     void GainScore()
     {
-        score += difficulty == 1 ? 3 : difficulty == 2 ? 6 : 9;  // Increase score at a time by difficulty
+        score += difficulty == 0 ? 2 : difficulty == 1 ? 3 : 4;  // Increase score at a time by difficulty
         if (score > highScore)
         {
             highScore = score;

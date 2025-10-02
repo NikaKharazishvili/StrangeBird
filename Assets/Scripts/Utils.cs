@@ -12,13 +12,12 @@ public static class Utils
     public static async void Wait(this MonoBehaviour monoBehaviour, float delay, UnityAction action)
     {
         await Task.Delay((int)(delay * 1000));
-
         if (monoBehaviour) action?.Invoke();
         else Debug.LogWarning("MonoBehaviour destroyed before wait completed, action not invoked");
     }
 
     // Exit the application in build, or stop play mode in Unity Editor
-    // Note: Application.Quit() is called even in Editor to ensure OnApplicationQuit() callbacks are executed for proper cleanup and saving
+    // Note: Application.Quit() is called even in Editor play mode to ensure OnApplicationQuit() callback is executed for proper saving
     public static void QuitApplication()
     {
         Application.Quit();

@@ -8,8 +8,8 @@ public class Obstacle : Movable
     void Awake()
     {
         // Obstacle's moving speed and ping-pong speed depends on game difficulty
-        moveSpeed = gameManager.difficulty == 1 ? -3f : gameManager.difficulty == 2 ? -4f : -5f;
-        pingPongSpeed = gameManager.difficulty == 1 ? 0.3f : gameManager.difficulty == 2 ? 0.45f : 0.6f;
+        moveSpeed = gameManager.difficulty == 0 ? -3f : gameManager.difficulty == 1 ? -4f : -5f;
+        pingPongSpeed = gameManager.difficulty == 0 ? 0.3f : gameManager.difficulty == 1 ? 0.45f : 0.6f;
     }
 
     void OnEnable()

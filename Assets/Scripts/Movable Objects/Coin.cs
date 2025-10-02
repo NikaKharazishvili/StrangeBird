@@ -5,7 +5,7 @@ public class Coin : Movable
     void Awake()
     {
         // Coin's moving speed depends on game difficulty
-        moveSpeed = gameManager.difficulty == 1 ? -3f : gameManager.difficulty == 2 ? -4f : -5f;
+        moveSpeed = gameManager.difficulty == 0 ? -3f : gameManager.difficulty == 1 ? -4f : -5f;
     }
 
     void OnEnable()

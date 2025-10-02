@@ -32,7 +32,7 @@ public class Bird : Movable
     void Awake()
     {
         // Bird's moving speed depends on game difficulty
-        moveSpeed = gameManager.difficulty == 1 ? -5f : gameManager.difficulty == 2 ? -6f : -7f;
+        moveSpeed = gameManager.difficulty == 0 ? -5f : gameManager.difficulty == 1 ? -6f : -7f;
     }
 
     void OnEnable()
