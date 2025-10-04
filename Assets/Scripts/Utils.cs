@@ -30,8 +30,8 @@ public static class Utils
     }
 
     // Loads a scene asynchronously with optional loading bar and text updates
-    // Usage: StartCoroutine(LoadSceneAsync("SceneName", loadingBar, loadingText));
-    public static IEnumerator LoadSceneAsync(string sceneName, Image loadingBar = null, TextMeshProUGUI loadingText = null)
+    // Usage: StartCoroutine(LoadSceneAsync("SceneName", loadingBar, loadingText, true));
+    public static IEnumerator LoadSceneAsync(string sceneName, Image loadingBar = null, TextMeshProUGUI loadingText = null, bool showFullProgressDelay = false)
     {
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);  // Start loading the scene asynchronously
         operation.allowSceneActivation = false;  // Prevent the scene from switching automatically
@@ -49,7 +49,7 @@ public static class Utils
         if (loadingText) loadingText.text = "Loading 100%";
         if (loadingBar) loadingBar.fillAmount = 1f;
 
-        // yield return new WaitForSeconds(0.2f);  // Optional brief delay before activation
+        if (showFullProgressDelay) yield return new WaitForSeconds(0.2f);  // Optional brief delay before activation
         operation.allowSceneActivation = true;
     }
 }
