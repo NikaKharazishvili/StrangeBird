@@ -1,14 +1,19 @@
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Events;
+using System.Collections;
 using System.Threading.Tasks;
+using UnityEngine.SceneManagement;
+using TMPro;
 
 // Static utility methods for common game operations
 public static class Utils
 {
-    // Returns true if a random number between 0-99 is less than the given percent (0-100)
+    // Returns true if a random number between 0-99 is less than the given percent
     public static bool PercentChanceSuccess(int percent) => Random.Range(0, 100) < percent;
 
-    // Provides an async awaitable delay method as an extension to MonoBehaviour. Usage: this.Wait(2f, () => { Your codes here });
+    // Provides an async awaitable delay method as an extension to MonoBehaviour
+    // Usage: this.Wait(2f, () => { Your codes here });
     public static async void Wait(this MonoBehaviour monoBehaviour, float delay, UnityAction action)
     {
         await Task.Delay((int)(delay * 1000));
@@ -17,10 +22,34 @@ public static class Utils
     }
 
     // Exit the application in build, or stop play mode in Unity Editor
-    // Note: Application.Quit() is called even in Editor play mode to ensure OnApplicationQuit() callback is executed for proper saving
+    // Ensure Application.Quit() is called first (even in Editor) to trigger OnApplicationQuit() and save data correctly
     public static void QuitApplication()
     {
         Application.Quit();
         UnityEditor.EditorApplication.isPlaying = false;
+    }
+
+    // Loads a scene asynchronously with optional loading bar and text updates
+    // Usage: StartCoroutine(LoadSceneAsync("SceneName", loadingBar, loadingText));
+    public static IEnumerator LoadSceneAsync(string sceneName, Image loadingBar = null, TextMeshProUGUI loadingText = null)
+    {
+        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);  // Start loading the scene asynchronously
+        operation.allowSceneActivation = false;  // Prevent the scene from switching automatically
+
+        while (operation.progress < 0.9f)  // Wait until the scene is loaded to 90% (Unity loads 0.9 max before activation)
+        {
+            float progress = operation.progress / 0.9f;  // Normalize progress to 0-1 range
+            // Update optional UI elements if provided
+            if (loadingText) loadingText.text = $"Loading {Mathf.RoundToInt(progress * 100)}%";
+            if (loadingBar) loadingBar.fillAmount = progress;
+            yield return null;
+        }
+
+        // Scene is ready - show 100% briefly then activate
+        if (loadingText) loadingText.text = "Loading 100%";
+        if (loadingBar) loadingBar.fillAmount = 1f;
+
+        // yield return new WaitForSeconds(0.2f);  // Optional brief delay before activation
+        operation.allowSceneActivation = true;
     }
 }

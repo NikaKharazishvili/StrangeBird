@@ -10,8 +10,6 @@ public partial class MenuManager : MonoBehaviour
 {
     [Tab("Shop Menu")]
     [SerializeField] SpriteAtlas spriteAtlas;
-    public enum ShopType : byte { Bird = 1, Background = 2, Obstacle = 3, Skill = 4 }
-    ShopType shopType;
     [SerializeField] GameObject shopCosmetics, shopSkills;
     [SerializeField] Image cosmeticPreviewImage;
     [SerializeField] GameObject cosmeticBuyButton;
@@ -24,10 +22,13 @@ public partial class MenuManager : MonoBehaviour
     [SerializeField] AudioClip[] buySounds;
 
     // These stats are saved and loaded using PlayerPrefs
-    bool[] birdsBought = new bool[8], backgroundsBought = new bool[8], obstaclesBought = new bool[6];
+    bool[] birdsBought = new bool[MaxBirdStyles], backgroundsBought = new bool[MaxBackgroundStyles], obstaclesBought = new bool[MaxObstacleStyles];
     int birdSelected, backgroundSelected, obstacleSelected;
     int skill1Level, skill2Level;
-    int coin;
+    [SerializeField] int coin;  // Serializing it to test in inspector
+
+    enum ShopType : byte { Bird = 1, Background = 2, Obstacle = 3, Skill = 4 }
+    ShopType shopType;
 
     // Opens the cosmetics shop (Birds, Backgrounds, Obstacles) and sets up UI
     public void OpenCosmeticShop(int index)
@@ -39,7 +40,7 @@ public partial class MenuManager : MonoBehaviour
         shopType = (ShopType)index;
 
         // Determine item count and set text visibility (how many)
-        int itemCount = shopType == ShopType.Bird ? 8 : shopType == ShopType.Background ? 8 : shopType == ShopType.Obstacle ? 6 : 0;
+        int itemCount = shopType == ShopType.Bird ? MaxBirdStyles : shopType == ShopType.Background ? MaxBackgroundStyles : shopType == ShopType.Obstacle ? MaxObstacleStyles : 0;
         for (int i = 0; i < cosmeticStyleTexts.Length; i++)
             cosmeticStyleTexts[i].gameObject.SetActive(i < itemCount);
 
@@ -107,10 +108,7 @@ public partial class MenuManager : MonoBehaviour
         audioSource.PlayOneShot(uiSelectSound);
         shopMenu.SetActive(false);
         shopSkills.SetActive(true);
-        if (skill1Level >= 3) skillBuyButtons[0].SetActive(false);
-        if (skill2Level >= 3) skillBuyButtons[1].SetActive(false);
-        skillLevelTexts[0].text = skill1Level + " / 3";
-        skillLevelTexts[1].text = skill2Level + " / 3";
+        UpdateSkillUI();
     }
 
     public void BuySkill(int index)
@@ -120,10 +118,19 @@ public partial class MenuManager : MonoBehaviour
             audioSource.PlayOneShot(buySounds[Random.Range(0, buySounds.Length)]);
             coin -= SkillCost;
             coinText.text = coin.ToString();
-            if (index == 0) { skill1Level += 1; skillLevelTexts[0].text = skill1Level + " / 3"; }
-            else if (index == 1) { skill2Level += 1; skillLevelTexts[1].text = skill2Level + " / 3"; }
-            if (skill1Level >= 3) skillBuyButtons[0].SetActive(false);
-            if (skill2Level >= 3) skillBuyButtons[1].SetActive(false);
+
+            if (index == 0) skill1Level++;
+            else if (index == 1) skill2Level++;
+            UpdateSkillUI();
         }
+    }
+
+    // Helper to update skill UI: levels text and buy button states
+    void UpdateSkillUI()
+    {
+        skillLevelTexts[0].text = skill1Level + " / 3";
+        skillLevelTexts[1].text = skill2Level + " / 3";
+        skillBuyButtons[0].SetActive(skill1Level < 3);
+        skillBuyButtons[1].SetActive(skill2Level < 3);
     }
 }

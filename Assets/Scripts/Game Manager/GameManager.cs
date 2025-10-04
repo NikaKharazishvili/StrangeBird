@@ -205,29 +205,8 @@ public class GameManager : MonoBehaviour
             SaveStats();
             foreach (Transform child in menu.transform) child.gameObject.SetActive(false);
             loadingMenu.SetActive(true);
-            StartCoroutine(LoadSceneAsync());
+            StartCoroutine(LoadSceneAsync("Menu", loadingBar, loadingText));
         }
         else if (index == 3) QuitApplication();  // Exit
-    }
-
-    IEnumerator LoadSceneAsync()
-    {
-        AsyncOperation operation = SceneManager.LoadSceneAsync(0);
-        operation.allowSceneActivation = false;  // Prevent auto scene switch
-
-        // Wait until the scene is fully loaded in the background
-        while (operation.progress < 0.9f)
-        {
-            float progress = operation.progress / 0.9f;  // Normalize to 0-1
-            loadingText.text = $"Loading {Mathf.RoundToInt(progress * 100)}%";
-            loadingBar.fillAmount = progress;
-            yield return null;
-        }
-
-        // Scene is ready - show 100% briefly then activate
-        loadingText.text = "Loading 100%";
-        loadingBar.fillAmount = 1f;
-        // yield return new WaitForSeconds(0.2f);  // Brief moment to show 100% (optional)
-        operation.allowSceneActivation = true;  // Switch to the loaded scene
     }
 }

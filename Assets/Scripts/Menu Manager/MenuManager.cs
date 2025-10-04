@@ -1,12 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-using System.Collections;
 using TMPro;
 using static Utils;
 using VInspector;
 
-// Partial class for managing the main menu, including navigation and scene loading
+// Partial class for managing the Main Menu, including navigation and scene loading
 public partial class MenuManager : MonoBehaviour
 {
     [Tab("Main Menu")]
@@ -16,70 +14,48 @@ public partial class MenuManager : MonoBehaviour
     [SerializeField] AudioSource audioSource;
     [SerializeField] AudioClip uiSelectSound;
 
+    enum MenuType : byte { Play = 0, Shop = 1, Options = 2, About = 3, Quit = 4, Back = 5 }
+
     public void MenuSelection(int index)
     {
         audioSource.PlayOneShot(uiSelectSound);
-        if (index == 0)  // Play
+        switch ((MenuType)index)
         {
-            SaveStats();
-            foreach (Transform child in menu.transform) child.gameObject.SetActive(false);
-            loadingMenu.SetActive(true);
-            back.SetActive(false);
-            StartCoroutine(LoadSceneAsync());
-        }
-        else if (index == 1)  // Shop Menu
-        {
-            background.color = new Color(0.2f, 0.2f, 0.2f);
-            menu.SetActive(false);
-            shopMenu.SetActive(true);
-            back.SetActive(true);
-        }
-        else if (index == 2)  // Options Menu
-        {
-            background.color = new Color(0.2f, 0.2f, 0.2f);
-            menu.SetActive(false);
-            optionMenu.SetActive(true);
-            back.SetActive(true);
-        }
-        else if (index == 3)  // About Text
-        {
-            background.color = new Color(0.2f, 0.2f, 0.2f);
-            menu.SetActive(false);
-            aboutText.SetActive(true);
-            back.SetActive(true);
-        }
-        else if (index == 4) QuitApplication();
-        else if (index == 5)  // Back to Main Menu
-        {
-            background.color = Color.white;
-            back.SetActive(false);
-            menu.SetActive(true);
-            shopMenu.SetActive(false);
-            shopCosmetics.SetActive(false);
-            shopSkills.SetActive(false);
-            optionMenu.SetActive(false);
-            aboutText.SetActive(false);
+            case MenuType.Play: Play(); break;
+            case MenuType.Shop: ShowSubMenu(shopMenu); break;
+            case MenuType.Options: ShowSubMenu(optionMenu); break;
+            case MenuType.About: ShowSubMenu(aboutText); break;
+            case MenuType.Quit: QuitApplication(); break;
+            case MenuType.Back: ResetMainMenu(); break;
         }
     }
 
-    IEnumerator LoadSceneAsync()
+    void Play()
     {
-        AsyncOperation operation = SceneManager.LoadSceneAsync(1);
-        operation.allowSceneActivation = false;  // Prevent auto scene switch
+        SaveStats();
+        foreach (Transform child in menu.transform) child.gameObject.SetActive(false);
+        loadingMenu.SetActive(true);
+        back.SetActive(false);
+        StartCoroutine(LoadSceneAsync("Game", loadingBar, loadingText));
+    }
 
-        // Wait until the scene is fully loaded in the background
-        while (operation.progress < 0.9f)
-        {
-            float progress = operation.progress / 0.9f;  // Normalize to 0-1
-            loadingText.text = $"Loading {Mathf.RoundToInt(progress * 100)}%";
-            loadingBar.fillAmount = progress;
-            yield return null;
-        }
+    void ShowSubMenu(GameObject submenu)
+    {
+        background.color = new Color(0.2f, 0.2f, 0.2f);
+        menu.SetActive(false);
+        submenu.SetActive(true);
+        back.SetActive(true);
+    }
 
-        // Scene is ready - show 100% briefly then activate
-        loadingText.text = "Loading 100%";
-        loadingBar.fillAmount = 1f;
-        // yield return new WaitForSeconds(0.2f);  // Brief moment to show 100% (optional)
-        operation.allowSceneActivation = true;  // Switch to the loaded scene
+    void ResetMainMenu()
+    {
+        background.color = Color.white;
+        back.SetActive(false);
+        menu.SetActive(true);
+        shopMenu.SetActive(false);
+        shopCosmetics.SetActive(false);
+        shopSkills.SetActive(false);
+        optionMenu.SetActive(false);
+        aboutText.SetActive(false);
     }
 }

@@ -14,9 +14,9 @@ public partial class MenuManager : MonoBehaviour
         PlayerPrefs.SetInt("ObstacleSelected", obstacleSelected);
 
         // Save bought cosmetics and skills
-        for (int i = 1; i < birdsBought.Length; i++) PlayerPrefs.SetInt($"BirdsBought{i}", birdsBought[i] ? 1 : 0);
-        for (int i = 1; i < backgroundsBought.Length; i++) PlayerPrefs.SetInt($"BackgroundsBought{i}", backgroundsBought[i] ? 1 : 0);
-        for (int i = 1; i < obstaclesBought.Length; i++) PlayerPrefs.SetInt($"ObstaclesBought{i}", obstaclesBought[i] ? 1 : 0);
+        SaveBoolArray("BirdsBought", birdsBought);
+        SaveBoolArray("BackgroundsBought", backgroundsBought);
+        SaveBoolArray("ObstaclesBought", obstaclesBought);
         PlayerPrefs.SetInt("Skill1Level", skill1Level);
         PlayerPrefs.SetInt("Skill2Level", skill2Level);
 
@@ -41,9 +41,9 @@ public partial class MenuManager : MonoBehaviour
         obstacleSelected = PlayerPrefs.GetInt("ObstacleSelected", 0);
 
         // Load bought cosmetics and skills
-        for (int i = 1; i < birdsBought.Length; i++) birdsBought[i] = PlayerPrefs.GetInt($"BirdsBought{i}", 0) == 1;
-        for (int i = 1; i < backgroundsBought.Length; i++) backgroundsBought[i] = PlayerPrefs.GetInt($"BackgroundsBought{i}", 0) == 1;
-        for (int i = 1; i < obstaclesBought.Length; i++) obstaclesBought[i] = PlayerPrefs.GetInt($"ObstaclesBought{i}", 0) == 1;
+        LoadBoolArray("BirdsBought", birdsBought);
+        LoadBoolArray("BackgroundsBought", backgroundsBought);
+        LoadBoolArray("ObstaclesBought", obstaclesBought);
         skill1Level = PlayerPrefs.GetInt("Skill1Level", 1);
         skill2Level = PlayerPrefs.GetInt("Skill2Level", 1);
 
@@ -65,5 +65,19 @@ public partial class MenuManager : MonoBehaviour
         // Load coins (100 by default)
         coin = PlayerPrefs.GetInt("Coin", 100);
         coinText.text = coin.ToString();
+    }
+
+    // Helper to save a bool array as ints
+    void SaveBoolArray(string keyPrefix, bool[] array)
+    {
+        for (int i = 1; i < array.Length; i++)  // start from 1, first is always unlocked
+            PlayerPrefs.SetInt($"{keyPrefix}{i}", array[i] ? 1 : 0);
+    }
+
+    // Helper to load a bool array from PlayerPrefs
+    void LoadBoolArray(string keyPrefix, bool[] array)
+    {
+        for (int i = 1; i < array.Length; i++)
+            array[i] = PlayerPrefs.GetInt($"{keyPrefix}{i}", 0) == 1;
     }
 }

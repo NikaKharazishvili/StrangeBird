@@ -1,6 +1,11 @@
 // Contains all magic numbers used throughout the game for easy adjustment and maintenance
 public static class GameConstants
 {
+    // Maximum counts
+    public const int MaxBirdStyles = 8;
+    public const int MaxBackgroundStyles = 8;
+    public const int MaxObstacleStyles = 6;
+
     // Costs
     public const int BirdCost = 50;
     public const int BackgroundCost = 50;
