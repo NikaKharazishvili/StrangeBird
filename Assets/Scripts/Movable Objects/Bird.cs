@@ -3,7 +3,7 @@ using UnityEngine;
 using static Utils;
 using static GameConstants;
 
-public class Bird : Movable
+public sealed class Bird : Movable
 {
     [SerializeField] GameObject chatBubble;
     [SerializeField] TextMeshPro chatText;
@@ -32,7 +32,7 @@ public class Bird : Movable
     void Awake()
     {
         // Bird's moving speed depends on game difficulty
-        moveSpeed = gameManager.difficulty == 0 ? -5f : gameManager.difficulty == 1 ? -6f : -7f;
+        moveSpeed = gameManager.difficulty == 0 ? EasyBirdMoveSpeed : gameManager.difficulty == 1 ? MediumBirdMoveSpeed : HardBirdMoveSpeed;
     }
 
     void OnEnable()

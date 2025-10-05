@@ -1,7 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
-using UnityEngine.SceneManagement;
 using TMPro;
 using static Utils;
 using static GameConstants;
@@ -31,14 +29,19 @@ public class GameManager : MonoBehaviour
         scoreText.text = score + " / " + highScore;
 
         spawnBirdsOption = PlayerPrefs.GetInt("SpawnBirds") == 1;
-        if (spawnBirdsOption) InvokeRepeating(nameof(BirdsPool), 5f, 5f);
-
         fpsText.gameObject.SetActive(PlayerPrefs.GetInt("ShowFps") == 1);
-
         obstaclesSpawnDelay = difficulty == 0 ? EasyObstaclesSpawnDelay : difficulty == 1 ? MediumObstaclesSpawnDelay : HardObstaclesSpawnDelay;
+        StartGameplayLoops();
+    }
+
+    void StartGameplayLoops()
+    {
+        if (spawnBirdsOption) InvokeRepeating(nameof(BirdsPool), 5f, 5f);  // Spawn birds as well if option is enabled
         InvokeRepeating(nameof(ObstaclesPool), obstaclesSpawnDelay, obstaclesSpawnDelay);
-        InvokeRepeating(nameof(DayNightCycle), DayNightCycleDelay, DayNightCycleDelay);  // Day/Night cycle and increase of score by difficulty
-        InvokeRepeating(nameof(GainScore), GainScoreDelay, GainScoreDelay);
+        // Even though Coins spawn with the same delay as Obstacles, they are positioned to the right of Obstacles to avoid overlap
+        InvokeRepeating(nameof(CoinsPool), obstaclesSpawnDelay, obstaclesSpawnDelay);
+        InvokeRepeating(nameof(DayNightCycle), DayNightCycleDelay, DayNightCycleDelay);  // Affects background color, sun/moon icon rotation and timer
+        InvokeRepeating(nameof(GainScore), GainScoreDelay, GainScoreDelay);  // Increase score over time based on difficulty
     }
 
     void LoadStats()
@@ -63,6 +66,10 @@ public class GameManager : MonoBehaviour
 
     void CoinsPool()
     {
+        // Spawn coin based on skill level
+        if (skill1Level == 1 && !PercentChanceSuccess(Skill1Level1CoinSpawnChance)) return;
+        if (skill1Level == 2 && !PercentChanceSuccess(Skill1Level2CoinSpawnChance)) return;
+
         foreach (Movable coin in coinsToPool)
         {
             if (!coin.gameObject.activeInHierarchy)
@@ -75,11 +82,6 @@ public class GameManager : MonoBehaviour
 
     void ObstaclesPool()
     {
-        // Spawn Coin by chance from skill1Level
-        if (skill1Level == 1) { if (PercentChanceSuccess(Skill1Level1CoinSpawnChance)) CoinsPool(); }
-        else if (skill1Level == 2) { if (PercentChanceSuccess(Skill1Level2CoinSpawnChance)) CoinsPool(); }
-        else if (skill1Level == 3) CoinsPool();
-
         foreach (Movable obstacle in obstaclesToPool)
         {
             if (!obstacle.gameObject.activeInHierarchy)
@@ -160,13 +162,10 @@ public class GameManager : MonoBehaviour
             foreach (Movable obstacle in obstaclesToPool) obstacle.gameObject.SetActive(false);
             foreach (Movable bird in birdsToPool) bird.gameObject.SetActive(false);
 
-            obstaclesSpawnDelay = difficulty == 1 ? 1.5f : difficulty == 2 ? 1.5f : 1f;
-            if (spawnBirdsOption) InvokeRepeating(nameof(BirdsPool), 5f, 5f);
-            InvokeRepeating(nameof(ObstaclesPool), obstaclesSpawnDelay, obstaclesSpawnDelay);
-            InvokeRepeating(nameof(DayNightCycle), DayNightCycleDelay, DayNightCycleDelay);
-            InvokeRepeating(nameof(GainScore), GainScoreDelay, GainScoreDelay);
             score = 0;
             scoreText.text = score + " / " + highScore;
+
+            StartGameplayLoops();
         }
         else  // Death
         {
@@ -174,15 +173,8 @@ public class GameManager : MonoBehaviour
             foreach (Movable coin in coinsToPool) coin.Move(Movable.MoveDirection.None);
             foreach (Movable obstacle in obstaclesToPool) obstacle.Move(Movable.MoveDirection.None);
 
-            // Disable spawning
-            if (spawnBirdsOption)
-            {
-                CancelInvoke(nameof(BirdsPool));
-                foreach (Bird bird in birdsToPool) bird.FlyAwayAfterPlayerDeath();
-            }
-            CancelInvoke(nameof(ObstaclesPool));
-            CancelInvoke(nameof(DayNightCycle));
-            CancelInvoke(nameof(GainScore));
+            if (spawnBirdsOption) foreach (Bird bird in birdsToPool) bird.FlyAwayAfterPlayerDeath();
+            CancelInvoke();  // Cancel all invoke spawnigs (Birds, Obstacles, Coins, DayNightCycle, GainScore)
 
             // Show death menu and update stats
             totalDeaths += 1;

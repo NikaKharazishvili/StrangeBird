@@ -1,14 +1,15 @@
 using UnityEngine;
 using static Utils;
+using static GameConstants;
 
-public class Obstacle : Movable
+public sealed class Obstacle : Movable
 {
     float pingPongSpeed;
 
     void Awake()
     {
         // Obstacle's moving speed and ping-pong speed depends on game difficulty
-        moveSpeed = gameManager.difficulty == 0 ? -3f : gameManager.difficulty == 1 ? -4f : -5f;
+        moveSpeed = gameManager.difficulty == 0 ? EasyObstacleMoveSpeed : gameManager.difficulty == 1 ? MediumObstacleMoveSpeed : HardObstacleMoveSpeed;
         pingPongSpeed = gameManager.difficulty == 0 ? 0.3f : gameManager.difficulty == 1 ? 0.45f : 0.6f;
     }
 

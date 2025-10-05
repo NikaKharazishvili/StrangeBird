@@ -176,7 +176,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 8530889235992783434, guid: 7cc9be0152533414388436a34a005a42, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7cc9be0152533414388436a34a005a42, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -893,8 +893,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteAtlas: {fileID: 4343727234628468602, guid: fb9fe2c2bd82de247a28370a2ab6e804, type: 2}
-  sprite: {fileID: 50085178}
   type: 1
+  sprite: {fileID: 50085178}
 --- !u!61 &50085177
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1043,8 +1043,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteAtlas: {fileID: 4343727234628468602, guid: fb9fe2c2bd82de247a28370a2ab6e804, type: 2}
-  sprite: {fileID: 65083808}
   type: 1
+  sprite: {fileID: 65083808}
 --- !u!61 &65083807
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1818,7 +1818,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -4295039307428948894, guid: f9acab3a82082d144a24e3a467b6dcac, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f9acab3a82082d144a24e3a467b6dcac, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2220,8 +2220,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteAtlas: {fileID: 4343727234628468602, guid: fb9fe2c2bd82de247a28370a2ab6e804, type: 2}
-  sprite: {fileID: 255339234}
   type: 1
+  sprite: {fileID: 255339234}
 --- !u!61 &255339233
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2471,8 +2471,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteAtlas: {fileID: 4343727234628468602, guid: fb9fe2c2bd82de247a28370a2ab6e804, type: 2}
-  sprite: {fileID: 379425072}
   type: 1
+  sprite: {fileID: 379425072}
 --- !u!1 &397291024
 GameObject:
   m_ObjectHideFlags: 0
@@ -2520,8 +2520,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteAtlas: {fileID: 4343727234628468602, guid: fb9fe2c2bd82de247a28370a2ab6e804, type: 2}
-  sprite: {fileID: 397291028}
   type: 1
+  sprite: {fileID: 397291028}
 --- !u!61 &397291027
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2889,7 +2889,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 7826949717507848784, guid: d18d747c529ed5448ac1a93deb98098c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d18d747c529ed5448ac1a93deb98098c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3113,7 +3113,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 7826949717507848784, guid: d18d747c529ed5448ac1a93deb98098c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d18d747c529ed5448ac1a93deb98098c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3578,8 +3578,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteAtlas: {fileID: 4343727234628468602, guid: fb9fe2c2bd82de247a28370a2ab6e804, type: 2}
-  sprite: {fileID: 524005421}
   type: 1
+  sprite: {fileID: 524005421}
 --- !u!61 &524005420
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3728,8 +3728,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteAtlas: {fileID: 4343727234628468602, guid: fb9fe2c2bd82de247a28370a2ab6e804, type: 2}
-  sprite: {fileID: 549332199}
   type: 1
+  sprite: {fileID: 549332199}
 --- !u!61 &549332198
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4560,7 +4560,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 7826949717507848784, guid: d18d747c529ed5448ac1a93deb98098c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d18d747c529ed5448ac1a93deb98098c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -4618,8 +4618,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteAtlas: {fileID: 4343727234628468602, guid: fb9fe2c2bd82de247a28370a2ab6e804, type: 2}
-  sprite: {fileID: 648086059}
   type: 1
+  sprite: {fileID: 648086059}
 --- !u!61 &648086058
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4778,7 +4778,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 972991712983674599, guid: 2e5ed8795d6825a4c8fbdbdfaf6e136e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2e5ed8795d6825a4c8fbdbdfaf6e136e, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5086,7 +5086,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 7826949717507848784, guid: d18d747c529ed5448ac1a93deb98098c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d18d747c529ed5448ac1a93deb98098c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -6019,8 +6019,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteAtlas: {fileID: 4343727234628468602, guid: fb9fe2c2bd82de247a28370a2ab6e804, type: 2}
-  sprite: {fileID: 781299121}
   type: 1
+  sprite: {fileID: 781299121}
 --- !u!61 &781299120
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6986,8 +6986,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteAtlas: {fileID: 4343727234628468602, guid: fb9fe2c2bd82de247a28370a2ab6e804, type: 2}
-  sprite: {fileID: 891073249}
   type: 0
+  sprite: {fileID: 891073249}
 --- !u!1 &891075685
 GameObject:
   m_ObjectHideFlags: 0
@@ -7590,7 +7590,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 7826949717507848784, guid: d18d747c529ed5448ac1a93deb98098c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d18d747c529ed5448ac1a93deb98098c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -7846,8 +7846,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteAtlas: {fileID: 4343727234628468602, guid: fb9fe2c2bd82de247a28370a2ab6e804, type: 2}
-  sprite: {fileID: 1075990906}
   type: 1
+  sprite: {fileID: 1075990906}
 --- !u!61 &1075990905
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -8488,8 +8488,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1208892997}
-  - component: {fileID: 1208892996}
   - component: {fileID: 1208892998}
+  - component: {fileID: 1208892996}
+  - component: {fileID: 1208892999}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -8561,8 +8562,7 @@ MonoBehaviour:
   totalDeaths: 0
   backgroundSelected: 0
   skill1Level: 0
-  spawnDelay: 0
-  elapsedTime: 0
+  obstaclesSpawnDelay: 0
 --- !u!4 &1208892997
 Transform:
   m_ObjectHideFlags: 0
@@ -8675,6 +8675,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1208892999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1208892995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e30fc6f43f16702428228d218670639f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  arrowCursor: {fileID: 2800000, guid: 0ef95b5a672858442b46ada97c22bcdb, type: 3}
+  handCursor: {fileID: 2800000, guid: 8219bfdc2f8e07c4087a040ba8777203, type: 3}
 --- !u!1 &1224960603
 GameObject:
   m_ObjectHideFlags: 0
@@ -9703,8 +9717,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteAtlas: {fileID: 4343727234628468602, guid: fb9fe2c2bd82de247a28370a2ab6e804, type: 2}
-  sprite: {fileID: 1404338851}
   type: 1
+  sprite: {fileID: 1404338851}
 --- !u!61 &1404338850
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9853,8 +9867,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteAtlas: {fileID: 4343727234628468602, guid: fb9fe2c2bd82de247a28370a2ab6e804, type: 2}
-  sprite: {fileID: 1431725679}
   type: 1
+  sprite: {fileID: 1431725679}
 --- !u!61 &1431725678
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -10239,7 +10253,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 7826949717507848784, guid: d18d747c529ed5448ac1a93deb98098c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d18d747c529ed5448ac1a93deb98098c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -10379,7 +10393,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 7826949717507848784, guid: d18d747c529ed5448ac1a93deb98098c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d18d747c529ed5448ac1a93deb98098c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -10437,8 +10451,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteAtlas: {fileID: 4343727234628468602, guid: fb9fe2c2bd82de247a28370a2ab6e804, type: 2}
-  sprite: {fileID: 1573087733}
   type: 1
+  sprite: {fileID: 1573087733}
 --- !u!61 &1573087732
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -11085,7 +11099,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 649223268058989734, guid: cab8cc86f708fa04389fd47fee28d66c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: cab8cc86f708fa04389fd47fee28d66c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -11150,8 +11164,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteAtlas: {fileID: 4343727234628468602, guid: fb9fe2c2bd82de247a28370a2ab6e804, type: 2}
-  sprite: {fileID: 1760327983}
   type: 1
+  sprite: {fileID: 1760327983}
 --- !u!61 &1760327982
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -11544,7 +11558,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 649223268058989734, guid: cab8cc86f708fa04389fd47fee28d66c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: cab8cc86f708fa04389fd47fee28d66c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -12007,7 +12021,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -1134032105938053371, guid: e110714b7ce1524489ccb663e3a7d20f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e110714b7ce1524489ccb663e3a7d20f, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -12072,8 +12086,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteAtlas: {fileID: 4343727234628468602, guid: fb9fe2c2bd82de247a28370a2ab6e804, type: 2}
-  sprite: {fileID: 1933734308}
   type: 1
+  sprite: {fileID: 1933734308}
 --- !u!61 &1933734307
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -12323,8 +12337,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteAtlas: {fileID: 4343727234628468602, guid: fb9fe2c2bd82de247a28370a2ab6e804, type: 2}
-  sprite: {fileID: 1941237395}
   type: 1
+  sprite: {fileID: 1941237395}
 --- !u!1 &1951896230
 GameObject:
   m_ObjectHideFlags: 0
@@ -12440,7 +12454,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 649223268058989734, guid: cab8cc86f708fa04389fd47fee28d66c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: cab8cc86f708fa04389fd47fee28d66c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -12966,7 +12980,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 7826949717507848784, guid: d18d747c529ed5448ac1a93deb98098c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d18d747c529ed5448ac1a93deb98098c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
