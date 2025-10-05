@@ -121,6 +121,7 @@ MonoBehaviour:
     - 484ee488ea3aa374382bd8e61fb32289
     - 684df2f1106e79a42976a4e27d59b25f
     - 2b8cb6fae595a4fdbab32cb85e237860
+    - 70624a97ab5fa2443adb8442514bc416
     values:
     - guid: 00000000000000001000000000000000
       iColor: 0
@@ -595,7 +596,7 @@ MonoBehaviour:
     - guid: 1c983f2626f26914b83278eab1bb780e
       iColor: 0
       autoIcon: 
-      customIcon: BoxCollider Icon
+      customIcon: AssemblyDefinitionAsset Icon
       autoIconDirty: 0
     - guid: b866b04d4589a6a468db1764e86f9724
       iColor: 0
@@ -656,4 +657,9 @@ MonoBehaviour:
       iColor: 0
       autoIcon: 
       customIcon: 
+      autoIconDirty: 0
+    - guid: 70624a97ab5fa2443adb8442514bc416
+      iColor: 0
+      autoIcon: 
+      customIcon: cs Script Icon
       autoIconDirty: 0
