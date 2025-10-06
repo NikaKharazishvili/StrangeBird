@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using static Utils;
-using static GameConstants;
+using static Constants;
 
 // Manages core gameplay systems including scoring, spawning, and game state
 public class GameManager : MonoBehaviour
@@ -48,10 +48,10 @@ public class GameManager : MonoBehaviour
     {
         coin = PlayerPrefs.GetInt("Coin");
         highScore = PlayerPrefs.GetInt("HighestScore", 100);
-        totalDeaths = PlayerPrefs.GetInt("TotalDeaths", 0);
+        totalDeaths = PlayerPrefs.GetInt("TotalDeaths");
         backgroundSelected = PlayerPrefs.GetInt("BackgroundSelected");
         skill1Level = PlayerPrefs.GetInt("Skill1Level");
-        AudioListener.volume = PlayerPrefs.GetFloat("GlobalVolume");
+        AudioListener.volume = PlayerPrefs.GetFloat("GlobalVolume", 1);
         difficulty = PlayerPrefs.GetInt("Difficulty");
     }
 

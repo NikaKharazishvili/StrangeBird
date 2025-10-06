@@ -1,5 +1,5 @@
 using UnityEngine;
-using static GameConstants;
+using static Constants;
 
 public sealed class Coin : Movable
 {

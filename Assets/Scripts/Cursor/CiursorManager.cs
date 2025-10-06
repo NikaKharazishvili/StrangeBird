@@ -5,8 +5,10 @@ using UnityEngine.EventSystems;
 // Centralized cursor manager to handle hand/arrow cursor for all UI buttons
 public class CursorManager : MonoBehaviour
 {
-    [SerializeField] private Texture2D arrowCursor;  // Default cursor
-    [SerializeField] private Texture2D handCursor;  // Cursor when hovering over buttons
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip hoverSound, clickSound;
+    [SerializeField] private Texture2D pointerArrow;  // Default cursor
+    [SerializeField] private Texture2D pointerHand;   // Cursor when hovering over buttons
 
     void Start()
     {
@@ -16,7 +18,6 @@ public class CursorManager : MonoBehaviour
             AddCursorEvents(button);
     }
 
-    // Add pointer enter/exit events dynamically
     void AddCursorEvents(Button button)
     {
         EventTrigger trigger = button.gameObject.GetComponent<EventTrigger>();
@@ -24,18 +25,28 @@ public class CursorManager : MonoBehaviour
 
         // Pointer Enter → hand cursor
         var entryEnter = new EventTrigger.Entry { eventID = EventTriggerType.PointerEnter };
-        entryEnter.callback.AddListener((_) => Cursor.SetCursor(handCursor, Vector2.zero, CursorMode.Auto));
+        entryEnter.callback.AddListener((_) =>
+        {
+            Cursor.SetCursor(pointerHand, Vector2.zero, CursorMode.Auto);
+            audioSource.PlayOneShot(hoverSound);
+        });
         trigger.triggers.Add(entryEnter);
 
         // Pointer Exit → arrow cursor
         var entryExit = new EventTrigger.Entry { eventID = EventTriggerType.PointerExit };
-        entryExit.callback.AddListener((_) => Cursor.SetCursor(arrowCursor, Vector2.zero, CursorMode.Auto));
+        entryExit.callback.AddListener((_) => Cursor.SetCursor(pointerArrow, Vector2.zero, CursorMode.Auto));
         trigger.triggers.Add(entryExit);
 
-        // Reset cursor when button clicked/disabled (to avoid stuck hand cursor bug)
-        button.onClick.AddListener(() => Cursor.SetCursor(arrowCursor, Vector2.zero, CursorMode.Auto));
+        // Play click sound, and reset cursor only if the button becomes inactive
+        button.onClick.AddListener(() =>
+        {
+            if (!button.gameObject.activeInHierarchy)
+                Cursor.SetCursor(pointerArrow, Vector2.zero, CursorMode.Auto);
+
+            audioSource.PlayOneShot(clickSound);
+        });
     }
 
-    // Call this if new buttons are added dynamically during gameplay
+    // For dynamically added buttons
     public void RegisterButton(Button button) => AddCursorEvents(button);
 }

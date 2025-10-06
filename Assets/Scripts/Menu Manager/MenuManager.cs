@@ -11,14 +11,11 @@ public partial class MenuManager : MonoBehaviour
     [SerializeField] GameObject menu, loadingMenu, shopMenu, optionMenu, aboutText, back;
     [SerializeField] Image loadingBar, background;
     [SerializeField] TextMeshProUGUI loadingText;
-    [SerializeField] AudioSource audioSource;
-    [SerializeField] AudioClip uiSelectSound;
 
     enum MenuType : byte { Play = 0, Shop = 1, Options = 2, About = 3, Quit = 4, Back = 5 }
 
     public void MenuSelection(int index)
     {
-        audioSource.PlayOneShot(uiSelectSound);
         switch ((MenuType)index)
         {
             case MenuType.Play: Play(); break;

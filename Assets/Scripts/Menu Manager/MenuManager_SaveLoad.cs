@@ -36,19 +36,19 @@ public partial class MenuManager : MonoBehaviour
         birdsBought[0] = true;
         backgroundsBought[0] = true;
         obstaclesBought[0] = true;
-        birdSelected = PlayerPrefs.GetInt("BirdSelected", 0);
-        backgroundSelected = PlayerPrefs.GetInt("BackgroundSelected", 0);
-        obstacleSelected = PlayerPrefs.GetInt("ObstacleSelected", 0);
+        birdSelected = PlayerPrefs.GetInt("BirdSelected");
+        backgroundSelected = PlayerPrefs.GetInt("BackgroundSelected");
+        obstacleSelected = PlayerPrefs.GetInt("ObstacleSelected");
 
         // Load bought cosmetics and skills
         LoadBoolArray("BirdsBought", birdsBought);
         LoadBoolArray("BackgroundsBought", backgroundsBought);
         LoadBoolArray("ObstaclesBought", obstaclesBought);
-        skill1Level = PlayerPrefs.GetInt("Skill1Level", 1);
-        skill2Level = PlayerPrefs.GetInt("Skill2Level", 1);
+        skill1Level = PlayerPrefs.GetInt("Skill1Level");
+        skill2Level = PlayerPrefs.GetInt("Skill2Level");
 
         // Load options
-        difficulty = PlayerPrefs.GetInt("Difficulty", 0);
+        difficulty = PlayerPrefs.GetInt("Difficulty");
         difficultyTexts[difficulty].color = Color.yellow;
 
         AudioListener.volume = PlayerPrefs.GetFloat("GlobalVolume", 1);
@@ -57,8 +57,8 @@ public partial class MenuManager : MonoBehaviour
         spawnBirds = PlayerPrefs.GetInt("SpawnBirds", 1);
         birdsCheckmark.sprite = spawnBirds == 1 ? spriteAtlas.GetSprite("Checkmark_Enabled") : spriteAtlas.GetSprite("Checkmark_Disabled");
 
-        showFps = PlayerPrefs.GetInt("ShowFps", 0);
-        fpsText.gameObject.SetActive(PlayerPrefs.GetInt("ShowFps", 0) == 1);
+        showFps = PlayerPrefs.GetInt("ShowFps");
+        fpsText.gameObject.SetActive(PlayerPrefs.GetInt("ShowFps") == 1);
         if (showFps == 1) InvokeRepeating(nameof(ShowFps), 0, 1f);
         fpsCheckmark.sprite = showFps == 1 ? spriteAtlas.GetSprite("Checkmark_Enabled") : spriteAtlas.GetSprite("Checkmark_Disabled");
 

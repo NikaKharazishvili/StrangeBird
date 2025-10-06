@@ -58,7 +58,6 @@ SpriteAtlas:
     - 7aacad2106cbaf04f814fe0170b85a7e: 21300000
     - 0fedcc1458f4e7c428c12a7d2a1bc870: 21300000
     - 9b92ad06535074245a1832d7985ec7d9: 21300000
-    - 020b5056808082a49819497d5a280c8f: 21300000
     - cab8cc86f708fa04389fd47fee28d66c: 21300000
     - 277e2b576dd59b349a24fccbff219a77: 21300000
     - 1b12b977461d13a458ad21d1d16d4fad: 21300000
@@ -98,7 +97,6 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 7aacad2106cbaf04f814fe0170b85a7e, type: 3}
   - {fileID: 21300000, guid: 0fedcc1458f4e7c428c12a7d2a1bc870, type: 3}
   - {fileID: 21300000, guid: 9b92ad06535074245a1832d7985ec7d9, type: 3}
-  - {fileID: 21300000, guid: 020b5056808082a49819497d5a280c8f, type: 3}
   - {fileID: 21300000, guid: cab8cc86f708fa04389fd47fee28d66c, type: 3}
   - {fileID: 21300000, guid: 277e2b576dd59b349a24fccbff219a77, type: 3}
   - {fileID: 21300000, guid: 1b12b977461d13a458ad21d1d16d4fad, type: 3}
@@ -137,7 +135,6 @@ SpriteAtlas:
   - Coin(4)
   - Background7
   - Bird0
-  - CheckmarkBackground
   - Button
   - Obstacle4
   - Coin(1)

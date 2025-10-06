@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.U2D;
 using TMPro;
-using static GameConstants;
+using static Constants;
 using VInspector;
 
 // Partial class for managing the shop menu, including buying and selecting cosmetics and skills
@@ -19,7 +19,9 @@ public partial class MenuManager : MonoBehaviour
     int selectedItemIndex, selectedItemCost;
 
     [SerializeField] TextMeshProUGUI coinText;
+    [SerializeField] AudioSource audioSource;
     [SerializeField] AudioClip[] buySounds;
+    [SerializeField] AudioClip cantBuySound;
 
     // These stats are saved and loaded using PlayerPrefs
     bool[] birdsBought = new bool[MaxBirdStyles], backgroundsBought = new bool[MaxBackgroundStyles], obstaclesBought = new bool[MaxObstacleStyles];
@@ -33,7 +35,6 @@ public partial class MenuManager : MonoBehaviour
     // Opens the cosmetics shop (Birds, Backgrounds, Obstacles) and sets up UI
     public void OpenCosmeticShop(int index)
     {
-        audioSource.PlayOneShot(uiSelectSound);
         shopMenu.SetActive(false);
         shopCosmetics.SetActive(true);
         cosmeticBuyButton.SetActive(false);
@@ -69,7 +70,6 @@ public partial class MenuManager : MonoBehaviour
     // Selects a cosmetic item and updates UI if the item is bought
     public void SelectCosmeticItem(int index)
     {
-        audioSource.PlayOneShot(uiSelectSound);
         selectedItemIndex = index;
 
         // Update selected index based on shop type if the item is bought
@@ -101,11 +101,11 @@ public partial class MenuManager : MonoBehaviour
 
             UpdateCosmeticItemUI();
         }
+        else audioSource.PlayOneShot(cantBuySound);
     }
 
     public void OpenSkillShop()
     {
-        audioSource.PlayOneShot(uiSelectSound);
         shopMenu.SetActive(false);
         shopSkills.SetActive(true);
         UpdateSkillUI();
@@ -123,6 +123,7 @@ public partial class MenuManager : MonoBehaviour
             else if (index == 1) skill2Level++;
             UpdateSkillUI();
         }
+        else audioSource.PlayOneShot(cantBuySound);
     }
 
     // Helper to update skill UI: levels text and buy button states

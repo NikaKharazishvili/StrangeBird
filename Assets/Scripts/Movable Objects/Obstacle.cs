@@ -1,6 +1,6 @@
 using UnityEngine;
 using static Utils;
-using static GameConstants;
+using static Constants;
 
 public sealed class Obstacle : Movable
 {
