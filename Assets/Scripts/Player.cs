@@ -4,9 +4,12 @@ using UnityEngine.UI;
 // Handles player movement, skills, and collision detection
 public sealed class Player : MonoBehaviour
 {
-    [SerializeField] float jumpForce = 4.5f, skill2Timer, skill2Cooldown = 9f;
-    [SerializeField] bool isAlive = true, isInvulnerable;
-    [SerializeField] GameManager gameManager;
+    public event System.Action OnDeath;
+    public event System.Action OnRespawn;
+    public event System.Action OnCoinTake;
+
+    [SerializeField] float jumpForce = 4.5f, skill2Timer = 0, skill2Cooldown = 9f;
+    [SerializeField] bool isAlive = true, isInvulnerable = false;
     [SerializeField] Image skill2;
     [SerializeField] RuntimeAnimatorController[] animatorControllers;
     [SerializeField] Animator animator, skill1Animator, skill2Animator;
@@ -15,7 +18,7 @@ public sealed class Player : MonoBehaviour
     [SerializeField] AudioSource audioSource;
     [SerializeField] AudioClip[] sounds;
 
-    void Start()
+    void Awake()
     {
         animator.runtimeAnimatorController = animatorControllers[PlayerPrefs.GetInt("BirdSelected", 0)];
         skill2Cooldown = PlayerPrefs.GetInt("Skill2Level", 1) == 1 ? 9f : PlayerPrefs.GetInt("Skill2Level", 1) == 2 ? 8f : 7f;
@@ -78,15 +81,16 @@ public sealed class Player : MonoBehaviour
         isAlive = false;
         animator.enabled = false;
         rb.velocity = Vector2.zero;
-        gameManager.CanSpawn(false);
+        OnDeath?.Invoke();  // Raise the death event (GameManager reacts to it)
     }
 
+    // Taking a Coin by touching it
     void TakeCoin(GameObject coin)
     {
         coin.SetActive(false);
         audioSource.PlayOneShot(sounds[1]);
         skill1Animator.Play("AnimateSkill");
-        gameManager.TakeCoin();
+        OnCoinTake?.Invoke();  // Raise the Coin taking event (GameManager reacts to it)
     }
 
     // Reset Player state on Respawn
@@ -96,7 +100,6 @@ public sealed class Player : MonoBehaviour
         isAlive = true;
         animator.enabled = true;
         transform.position = new Vector3(-1.5f, 0);
-
-        gameManager.CanSpawn(true);
+        OnRespawn?.Invoke();  // Raise the respawn event (GameManager reacts to it)
     }
 }

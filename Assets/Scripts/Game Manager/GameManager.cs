@@ -5,7 +5,7 @@ using static Utils;
 using static Constants;
 
 // Manages core gameplay systems including scoring, spawning, and game state
-public class GameManager : MonoBehaviour
+public partial class GameManager : MonoBehaviour
 {
     public int difficulty;
     [SerializeField] Player player;
@@ -24,15 +24,12 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        LoadStats();
-        coinText.text = coin.ToString();
-        scoreText.text = score + " / " + highScore;
-
-        spawnBirdsOption = PlayerPrefs.GetInt("SpawnBirds") == 1;
-        fpsText.gameObject.SetActive(PlayerPrefs.GetInt("ShowFps") == 1);
-        obstaclesSpawnDelay = difficulty == 0 ? EasyObstaclesSpawnDelay : difficulty == 1 ? MediumObstaclesSpawnDelay : HardObstaclesSpawnDelay;
-        StartGameplayLoops();
+        SubscribeToPlayerEvents();  // OnDeath, OnRespawn, OnCoinTake
+        LoadStats();  // Load saved stats, player preferences, and game settings
+        StartGameplayLoops();  // Initialize core gameplay loops (spawning Obstacles, Coins, Birds, Day/Night cycle, and score gain)
     }
+
+    void OnApplicationQuit() => SaveStats();
 
     void StartGameplayLoops()
     {
@@ -40,35 +37,16 @@ public class GameManager : MonoBehaviour
         InvokeRepeating(nameof(ObstaclesPool), obstaclesSpawnDelay, obstaclesSpawnDelay);
         // Even though Coins spawn with the same delay as Obstacles, they are positioned to the right of Obstacles to avoid overlap
         InvokeRepeating(nameof(CoinsPool), obstaclesSpawnDelay, obstaclesSpawnDelay);
-        InvokeRepeating(nameof(DayNightCycle), DayNightCycleDelay, DayNightCycleDelay);  // Affects background color, sun/moon icon rotation and timer
-        InvokeRepeating(nameof(GainScore), GainScoreDelay, GainScoreDelay);  // Increase score over time based on difficulty
+        InvokeRepeating(nameof(DayNightCycle), DayNightCycleInterval, DayNightCycleInterval);  // Affects background color, sun/moon icon rotation and timer
+        InvokeRepeating(nameof(GainScore), ScoreGainInterval, ScoreGainInterval);  // Increase score over time based on difficulty
     }
 
-    void LoadStats()
-    {
-        coin = PlayerPrefs.GetInt("Coin");
-        highScore = PlayerPrefs.GetInt("HighestScore", 100);
-        totalDeaths = PlayerPrefs.GetInt("TotalDeaths");
-        backgroundSelected = PlayerPrefs.GetInt("BackgroundSelected");
-        skill1Level = PlayerPrefs.GetInt("Skill1Level");
-        AudioListener.volume = PlayerPrefs.GetFloat("GlobalVolume", 1);
-        difficulty = PlayerPrefs.GetInt("Difficulty");
-    }
-
-    void SaveStats()
-    {
-        PlayerPrefs.SetInt("Coin", coin);
-        PlayerPrefs.SetInt("HighestScore", highScore);
-        PlayerPrefs.SetInt("TotalDeaths", totalDeaths);
-        PlayerPrefs.Save();
-    }
-    void OnApplicationQuit() => SaveStats();
-
+    // Spawn a coin from the pool based on skill level and random chance
     void CoinsPool()
     {
         // Spawn coin based on skill level
-        if (skill1Level == 1 && !PercentChanceSuccess(Skill1Level1CoinSpawnChance)) return;
-        if (skill1Level == 2 && !PercentChanceSuccess(Skill1Level2CoinSpawnChance)) return;
+        if (skill1Level == 1 && !PercentChanceSuccess(Skill1Level1CoinChance)) return;
+        if (skill1Level == 2 && !PercentChanceSuccess(Skill1Level2CoinChance)) return;
 
         foreach (Movable coin in coinsToPool)
         {
@@ -80,6 +58,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // Spawn an obstacle from the pool
     void ObstaclesPool()
     {
         foreach (Movable obstacle in obstaclesToPool)
@@ -92,9 +71,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // Spawn a bird from the pool with a 40% chance
     void BirdsPool()
     {
-        // 40% chance to spawn moving birds (decorative)
         if (PercentChanceSuccess(BirdSpawnChance))
         {
             foreach (Movable bird in birdsToPool)
@@ -108,16 +87,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void TakeCoin()
-    {
-        coin += 1;
-        currentCoins += 1;
-        coinText.text = coin.ToString();
-    }
-
+    // Increment score over time based on difficulty
     void GainScore()
     {
-        score += difficulty == 0 ? 2 : difficulty == 1 ? 3 : 4;  // Increase score at a time by difficulty
+        score += difficulty == 0 ? EasyScoreIncrement : difficulty == 1 ? MediumScoreIncrement : HardScoreIncrement;
         if (score > highScore)
         {
             highScore = score;
@@ -132,6 +105,7 @@ public class GameManager : MonoBehaviour
         fpsText.text = "Fps: " + Mathf.RoundToInt(1 / Time.deltaTime).ToString();
     }
 
+    // Handle day/night cycle: update timer, background color, and sun/moon rotation
     void DayNightCycle()
     {
         // Timer
@@ -153,37 +127,7 @@ public class GameManager : MonoBehaviour
         sunMoonIcon.localRotation = Quaternion.Euler(0, 0, rotationAngle);  // Apply the rotation to the RectTransform
     }
 
-    public void CanSpawn(bool isActive)
-    {
-        if (isActive)  // Respawn
-        {
-            // Disable active objects from pools
-            foreach (Movable coin in coinsToPool) coin.gameObject.SetActive(false);
-            foreach (Movable obstacle in obstaclesToPool) obstacle.gameObject.SetActive(false);
-            foreach (Movable bird in birdsToPool) bird.gameObject.SetActive(false);
-
-            score = 0;
-            scoreText.text = score + " / " + highScore;
-
-            StartGameplayLoops();
-        }
-        else  // Death
-        {
-            // Stop Coin and Obstacle movement (Birds keep flying)
-            foreach (Movable coin in coinsToPool) coin.Move(Movable.MoveDirection.None);
-            foreach (Movable obstacle in obstaclesToPool) obstacle.Move(Movable.MoveDirection.None);
-
-            if (spawnBirdsOption) foreach (Bird bird in birdsToPool) bird.FlyAwayAfterPlayerDeath();
-            CancelInvoke();  // Cancel all invoke spawnigs (Birds, Obstacles, Coins, DayNightCycle, GainScore)
-
-            // Show death menu and update stats
-            totalDeaths += 1;
-            deathText.text = $"Total Deaths: {totalDeaths}\nHigh Score: {highScore}\nCoins Collected This Round: {currentCoins}";
-            currentCoins = 0;
-            this.Wait(0.5f, () => menu.SetActive(true));
-        }
-    }
-
+    // Handle menu selection input (Play, Menu, Quit)
     public void MenuSelection(int index)
     {
         audioSource.PlayOneShot(uiSelectSound);

@@ -24,7 +24,7 @@ public partial class MenuManager : MonoBehaviour
     [SerializeField] AudioClip cantBuySound;
 
     // These stats are saved and loaded using PlayerPrefs
-    bool[] birdsBought = new bool[MaxBirdStyles], backgroundsBought = new bool[MaxBackgroundStyles], obstaclesBought = new bool[MaxObstacleStyles];
+    bool[] birdsBought = new bool[MaxBirdTypes], backgroundsBought = new bool[MaxBackgroundTypes], obstaclesBought = new bool[MaxObstacleTypes];
     int birdSelected, backgroundSelected, obstacleSelected;
     int skill1Level, skill2Level;
     [SerializeField] int coin;  // Serializing it to test in inspector
@@ -41,12 +41,12 @@ public partial class MenuManager : MonoBehaviour
         shopType = (ShopType)index;
 
         // Determine item count and set text visibility (how many)
-        int itemCount = shopType == ShopType.Bird ? MaxBirdStyles : shopType == ShopType.Background ? MaxBackgroundStyles : shopType == ShopType.Obstacle ? MaxObstacleStyles : 0;
+        int itemCount = shopType == ShopType.Bird ? MaxBirdTypes : shopType == ShopType.Background ? MaxBackgroundTypes : shopType == ShopType.Obstacle ? MaxObstacleTypes : 0;
         for (int i = 0; i < cosmeticStyleTexts.Length; i++)
             cosmeticStyleTexts[i].gameObject.SetActive(i < itemCount);
 
         // Update selected item cost based on shop type
-        selectedItemCost = shopType == ShopType.Bird ? BirdCost : shopType == ShopType.Background ? BackgroundCost : ObstacleCost;
+        selectedItemCost = shopType == ShopType.Bird ? BirdUnlockCost : shopType == ShopType.Background ? BackgroundUnlockCost : ObstacleUnlockCost;
         // Set initial selected item index to current selection
         selectedItemIndex = shopType == ShopType.Bird ? birdSelected : shopType == ShopType.Background ? backgroundSelected : obstacleSelected;
         // Adjust preview image size for obstacles (taller)
@@ -113,10 +113,10 @@ public partial class MenuManager : MonoBehaviour
 
     public void BuySkill(int index)
     {
-        if (coin >= SkillCost)
+        if (coin >= SkillUnlockCost)
         {
             audioSource.PlayOneShot(buySounds[Random.Range(0, buySounds.Length)]);
-            coin -= SkillCost;
+            coin -= SkillUnlockCost;
             coinText.text = coin.ToString();
 
             if (index == 0) skill1Level++;

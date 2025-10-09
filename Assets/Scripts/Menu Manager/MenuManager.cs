@@ -4,7 +4,7 @@ using TMPro;
 using static Utils;
 using VInspector;
 
-// Partial class for managing the Main Menu, including navigation and scene loading
+// Partial class for managing the main menu, including navigation and scene loading
 public partial class MenuManager : MonoBehaviour
 {
     [Tab("Main Menu")]

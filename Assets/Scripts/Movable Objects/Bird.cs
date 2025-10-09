@@ -11,6 +11,7 @@ public sealed class Bird : Movable
     [SerializeField] AudioClip[] birdChatSounds;
     [SerializeField] Animator animator;
     [SerializeField] RuntimeAnimatorController[] birdVariationAnimators;
+    float moveSpeed;
 
     // Collection of random bird-themed chat messages that can be displayed by flying birds
     static readonly string[] BirdChatMessages = new string[]
@@ -29,11 +30,8 @@ public sealed class Bird : Movable
         "Flap happy!", "Bird-brained fun!", "Fluff and stuff!"
     };
 
-    void Awake()
-    {
-        // Bird's moving speed depends on game difficulty
-        moveSpeed = gameManager.difficulty == 0 ? EasyBirdMoveSpeed : gameManager.difficulty == 1 ? MediumBirdMoveSpeed : HardBirdMoveSpeed;
-    }
+    // Bird's moving speed depends on game difficulty
+    void Awake() => moveSpeed = gameManager.difficulty == 0 ? EasyBirdSpeed : gameManager.difficulty == 1 ? MediumBirdSpeed : HardBirdSpeed;
 
     void OnEnable()
     {

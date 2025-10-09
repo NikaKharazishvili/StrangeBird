@@ -4,20 +4,21 @@ using static Constants;
 
 public sealed class Obstacle : Movable
 {
-    float pingPongSpeed;
+    static float moveSpeed;
+    static float pingPongSpeed;
 
-    void Awake()
+    // Called by GameManager once at game start; Obstacle's move and ping-pong speed depend on difficulty
+    public static void SetSpeed(int difficulty)
     {
-        // Obstacle's moving speed and ping-pong speed depends on game difficulty
-        moveSpeed = gameManager.difficulty == 0 ? EasyObstacleMoveSpeed : gameManager.difficulty == 1 ? MediumObstacleMoveSpeed : HardObstacleMoveSpeed;
-        pingPongSpeed = gameManager.difficulty == 0 ? 0.3f : gameManager.difficulty == 1 ? 0.45f : 0.6f;
+        moveSpeed = difficulty == 0 ? EasyObstacleSpeed : difficulty == 1 ? MediumObstacleSpeed : HardObstacleSpeed;
+        pingPongSpeed = difficulty == 0 ? 0.3f : difficulty == 1 ? 0.45f : 0.6f;
     }
 
     void OnEnable()
     {
         TeleportToRight();
         Move(MoveDirection.Left);
-        pingPongSpeed = PercentChanceSuccess(50) ? pingPongSpeed : -pingPongSpeed;  // Randomize initial PingPong direction
+        pingPongSpeed = PercentChanceSuccess(50) ? pingPongSpeed : -pingPongSpeed;  // Randomize initial PingPong direction on enabling obstacle
     }
 
     // Teleport to the right side of the screen with random Y position (for pooling)
@@ -31,7 +32,7 @@ public sealed class Obstacle : Movable
         else Debug.LogWarning("Invalid direction! Obstacle can only move left or stop moving!");
     }
 
-    // When Obstacle touches upper or lower collider, it will change its "PingPong" movement direction
+    // When Obstacle touches upper or lower collider, reverse its PingPong movement direction
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Collider"))

@@ -3,11 +3,10 @@ using static Constants;
 
 public sealed class Coin : Movable
 {
-    void Awake()
-    {
-        // Coin's moving speed depends on game difficulty
-        moveSpeed = gameManager.difficulty == 0 ? EasyCoinMoveSpeed : gameManager.difficulty == 1 ? MediumCoinMoveSpeed : HardCoinMoveSpeed;
-    }
+    static float moveSpeed;
+    
+    // Called by GameManager once at game start; Coin's move speed depends on difficulty
+    public static void SetSpeed(int difficulty) => moveSpeed = difficulty == 0 ? EasyCoinSpeed : difficulty == 1 ? MediumCoinSpeed : HardCoinSpeed;
 
     void OnEnable()
     {
@@ -18,7 +17,7 @@ public sealed class Coin : Movable
     // Teleport to the right side of the screen with random Y position (for pooling)
     public override void TeleportToRight() => transform.position = new Vector2(8f, Random.Range(-2f, 2f));
 
-    // Coin only moves left (or stops, when player dies)
+    // Coin only moves left (or stops if player dies)
     public override void Move(MoveDirection direction)
     {
         if (direction == MoveDirection.Left) rb.velocity = new Vector2(moveSpeed, 0f);
