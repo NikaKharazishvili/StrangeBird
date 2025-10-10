@@ -1,35 +1,46 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using VInspector;
 using static Utils;
 using static Constants;
 
 // Manages core gameplay systems including scoring, spawning, and game state
 public partial class GameManager : MonoBehaviour
 {
-    public int difficulty;
+    [Tab("Main")]
     [SerializeField] Player player;
     [SerializeField] GameObject menu, loadingMenu;
     [SerializeField] Image loadingBar;
-    [SerializeField] TextMeshProUGUI loadingText;
-    [SerializeField] Movable[] coinsToPool, obstaclesToPool, birdsToPool;
-    [SerializeField] TextMeshProUGUI coinText, timerText, scoreText, deathText, fpsText;
+    [SerializeField] TextMeshProUGUI loadingText, coinText, scoreText, deathText, fpsText;
     [SerializeField] SpriteRenderer background;
-    [SerializeField] Transform sunMoonIcon;
     [SerializeField] AudioSource audioSource;
     [SerializeField] AudioClip newHighScoreSound, uiSelectSound;
-    [SerializeField] int minutes = 0, hours = 12, score, highScore, coin, currentCoins, totalDeaths, backgroundSelected, skill1Level;
+    int currentScore, coinsCollectedThisRound;
+    bool newHighScore;
+
+    [Tab("LoadAndSave")]
+    [SerializeField] int difficulty, highScore, coin, totalDeaths, skill1Level;
     [SerializeField] float obstaclesSpawnDelay;
-    bool newHighScore, spawnBirdsOption;
+    [SerializeField] bool showFpsOption, spawnBirdsOption;
+
+    [Tab("ObjectsToPool")]
+    [SerializeField] Movable[] birdsToPool, obstaclesToPool, coinsToPool;
+
+    [Tab("DayNightCycle")]
+    [SerializeField] Transform sunMoonIcon;
+    [SerializeField] TextMeshProUGUI timerText;
+    [SerializeField] int minutes = 0, hours = 12;
 
     void Start()
     {
         SubscribeToPlayerEvents();  // OnDeath, OnRespawn, OnCoinTake
         LoadStats();  // Load saved stats, player preferences, and game settings
         StartGameplayLoops();  // Initialize core gameplay loops (spawning Obstacles, Coins, Birds, Day/Night cycle, and score gain)
+        if (showFpsOption) InvokeRepeating(nameof(UpdateFpsHud), 0, 1f);  // Update Fps hud if option is enabled
     }
 
-    void OnApplicationQuit() => SaveStats();
+    public int GetDifficulty() => difficulty;
 
     void StartGameplayLoops()
     {
@@ -41,35 +52,16 @@ public partial class GameManager : MonoBehaviour
         InvokeRepeating(nameof(GainScore), ScoreGainInterval, ScoreGainInterval);  // Increase score over time based on difficulty
     }
 
-    // Spawn a coin from the pool based on skill level and random chance
-    void CoinsPool()
+    void StopGameplayLoops()
     {
-        // Spawn coin based on skill level
-        if (skill1Level == 1 && !PercentChanceSuccess(Skill1Level1CoinChance)) return;
-        if (skill1Level == 2 && !PercentChanceSuccess(Skill1Level2CoinChance)) return;
-
-        foreach (Movable coin in coinsToPool)
-        {
-            if (!coin.gameObject.activeInHierarchy)
-            {
-                coin.gameObject.SetActive(true);
-                return;
-            }
-        }
+        if (spawnBirdsOption) CancelInvoke(nameof(BirdsPool));
+        CancelInvoke(nameof(ObstaclesPool));
+        CancelInvoke(nameof(CoinsPool));
+        CancelInvoke(nameof(DayNightCycle));
+        CancelInvoke(nameof(GainScore));
     }
 
-    // Spawn an obstacle from the pool
-    void ObstaclesPool()
-    {
-        foreach (Movable obstacle in obstaclesToPool)
-        {
-            if (!obstacle.gameObject.activeInHierarchy)
-            {
-                obstacle.gameObject.SetActive(true);
-                return;
-            }
-        }
-    }
+    void UpdateFpsHud() => fpsText.text = "Fps: " + Mathf.RoundToInt(1 / Time.deltaTime).ToString();
 
     // Spawn a bird from the pool with a 40% chance
     void BirdsPool()
@@ -87,22 +79,34 @@ public partial class GameManager : MonoBehaviour
         }
     }
 
-    // Increment score over time based on difficulty
-    void GainScore()
+    // Spawn an obstacle from the pool
+    void ObstaclesPool()
     {
-        score += difficulty == 0 ? EasyScoreIncrement : difficulty == 1 ? MediumScoreIncrement : HardScoreIncrement;
-        if (score > highScore)
+        foreach (Movable obstacle in obstaclesToPool)
         {
-            highScore = score;
-            if (!newHighScore)
+            if (!obstacle.gameObject.activeInHierarchy)
             {
-                audioSource.PlayOneShot(newHighScoreSound);
-                newHighScore = true;
+                obstacle.gameObject.SetActive(true);
+                return;
             }
         }
-        else newHighScore = false;
-        scoreText.text = score + " / " + highScore;
-        fpsText.text = "Fps: " + Mathf.RoundToInt(1 / Time.deltaTime).ToString();
+    }
+
+    // Spawn a coin from the pool based on skill level and random chance
+    void CoinsPool()
+    {
+        // Spawn coin based on skill level
+        if (skill1Level == 1 && !PercentChanceSuccess(Skill1Level1CoinChance)) return;
+        if (skill1Level == 2 && !PercentChanceSuccess(Skill1Level2CoinChance)) return;
+
+        foreach (Movable coin in coinsToPool)
+        {
+            if (!coin.gameObject.activeInHierarchy)
+            {
+                coin.gameObject.SetActive(true);
+                return;
+            }
+        }
     }
 
     // Handle day/night cycle: update timer, background color, and sun/moon rotation
@@ -125,6 +129,23 @@ public partial class GameManager : MonoBehaviour
         // Rotate the sun & moon icon based on time of day
         float rotationAngle = (timeOfDay * 360f + 180f) % 360f;  // Calculate the rotation angle starting from 180 degrees
         sunMoonIcon.localRotation = Quaternion.Euler(0, 0, rotationAngle);  // Apply the rotation to the RectTransform
+    }
+
+    // Increment score over time based on difficulty
+    void GainScore()
+    {
+        currentScore += difficulty == 0 ? EasyScoreIncrement : difficulty == 1 ? MediumScoreIncrement : HardScoreIncrement;
+        if (currentScore > highScore)
+        {
+            highScore = currentScore;
+            if (!newHighScore)
+            {
+                audioSource.PlayOneShot(newHighScoreSound);
+                newHighScore = true;
+            }
+        }
+
+        scoreText.text = currentScore + " / " + highScore;
     }
 
     // Handle menu selection input (Play, Menu, Quit)

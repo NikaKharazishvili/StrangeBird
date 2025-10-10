@@ -8,7 +8,7 @@ public partial class GameManager : MonoBehaviour
     {
         // Load high score and total deaths, update UI
         highScore = PlayerPrefs.GetInt("HighestScore", 100);
-        scoreText.text = score + " / " + highScore;
+        scoreText.text = currentScore + " / " + highScore;
         totalDeaths = PlayerPrefs.GetInt("TotalDeaths");
 
         // Load coins and skill level, update UI
@@ -16,12 +16,12 @@ public partial class GameManager : MonoBehaviour
         coinText.text = coin.ToString();
         skill1Level = PlayerPrefs.GetInt("Skill1Level");
 
-        // Load general settings (selected background, volume, game difficulty, bird-spawning option)
-        backgroundSelected = PlayerPrefs.GetInt("BackgroundSelected");
+        // Load general settings (volume, game difficulty, fps-showing option, bird-spawning option)
         AudioListener.volume = PlayerPrefs.GetFloat("GlobalVolume", 1);
         difficulty = PlayerPrefs.GetInt("Difficulty");
+        showFpsOption = PlayerPrefs.GetInt("ShowFps") == 1;
+        fpsText.gameObject.SetActive(showFpsOption);
         spawnBirdsOption = PlayerPrefs.GetInt("SpawnBirds") == 1;
-        fpsText.gameObject.SetActive(PlayerPrefs.GetInt("ShowFps") == 1);
 
         // Load values based on difficulty
         obstaclesSpawnDelay = difficulty == 0 ? EasyObstacleSpawnDelay : difficulty == 1 ? MediumObstacleSpawnDelay : HardObstacleSpawnDelay;
@@ -36,4 +36,6 @@ public partial class GameManager : MonoBehaviour
         PlayerPrefs.SetInt("TotalDeaths", totalDeaths);
         PlayerPrefs.Save();
     }
+
+    void OnApplicationQuit() => SaveStats();
 }

@@ -5,16 +5,16 @@ public partial class GameManager : MonoBehaviour
 {
     void SubscribeToPlayerEvents()
     {
-        player.OnDeath += StopAllObjects;
-        player.OnRespawn += RespawnAllObjects;
         player.OnCoinTake += TakeCoin;
+        player.OnDeath += StopAllObjects;
+        player.OnRespawn += Restart;
     }
 
     // Increments coin count and updates UI (called when Player collects a coin)
     void TakeCoin()
     {
         coin += 1;
-        currentCoins += 1;
+        coinsCollectedThisRound += 1;
         coinText.text = coin.ToString();
     }
 
@@ -25,16 +25,16 @@ public partial class GameManager : MonoBehaviour
         foreach (Movable obstacle in obstaclesToPool) obstacle.Move(Movable.MoveDirection.None);
         if (spawnBirdsOption) foreach (Bird bird in birdsToPool) bird.FlyAwayAfterPlayerDeath();
 
-        CancelInvoke();
+        StopGameplayLoops();
 
         totalDeaths += 1;
-        deathText.text = $"Total Deaths: {totalDeaths}\nHigh Score: {highScore}\nCoins Collected This Round: {currentCoins}";
-        currentCoins = 0;
+        deathText.text = $"Total Deaths: {totalDeaths}\nHigh Score: {highScore}\nCoins Collected This Round: {coinsCollectedThisRound}";
+        coinsCollectedThisRound = 0;
         this.Wait(0.5f, () => menu.SetActive(true));
     }
 
     // Disables all pooled objects, restarts gameplay loops, resets score and updates UI (called on Player respawn)
-    void RespawnAllObjects()
+    void Restart()
     {
         foreach (Movable coin in coinsToPool) coin.gameObject.SetActive(false);
         foreach (Movable obstacle in obstaclesToPool) obstacle.gameObject.SetActive(false);
@@ -42,7 +42,8 @@ public partial class GameManager : MonoBehaviour
 
         StartGameplayLoops();
 
-        score = 0;
-        scoreText.text = score + " / " + highScore;
+        currentScore = 0;
+        scoreText.text = currentScore + " / " + highScore;
+        newHighScore = false;
     }
 }

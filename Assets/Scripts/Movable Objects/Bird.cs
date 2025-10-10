@@ -31,7 +31,7 @@ public sealed class Bird : Movable
     };
 
     // Bird's moving speed depends on game difficulty
-    void Awake() => moveSpeed = gameManager.difficulty == 0 ? EasyBirdSpeed : gameManager.difficulty == 1 ? MediumBirdSpeed : HardBirdSpeed;
+    void Awake() => moveSpeed = gameManager.GetDifficulty() == 0 ? EasyBirdSpeed : gameManager.GetDifficulty() == 1 ? MediumBirdSpeed : HardBirdSpeed;
 
     void OnEnable()
     {

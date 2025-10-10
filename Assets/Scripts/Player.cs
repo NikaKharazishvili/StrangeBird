@@ -4,9 +4,9 @@ using UnityEngine.UI;
 // Handles player movement, skills, and collision detection
 public sealed class Player : MonoBehaviour
 {
+    public event System.Action OnCoinTake;
     public event System.Action OnDeath;
     public event System.Action OnRespawn;
-    public event System.Action OnCoinTake;
 
     [SerializeField] float jumpForce = 4.5f, skill2Timer = 0, skill2Cooldown = 9f;
     [SerializeField] bool isAlive = true, isInvulnerable = false;
