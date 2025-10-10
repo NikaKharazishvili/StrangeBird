@@ -8413,30 +8413,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9486bcacc637e9442993229da234affc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  difficulty: 0
   player: {fileID: 7941426752726780029}
   menu: {fileID: 1633295136}
   loadingMenu: {fileID: 643327625}
   loadingBar: {fileID: 909181832}
   loadingText: {fileID: 2036414308}
-  coinsToPool:
-  - {fileID: 739466608}
-  - {fileID: 1676299725}
-  - {fileID: 600442895}
-  - {fileID: 684585337}
-  - {fileID: 920120168}
-  - {fileID: 577520016}
-  - {fileID: 1825368085}
-  - {fileID: 705073221}
-  obstaclesToPool:
-  - {fileID: 1956193242}
-  - {fileID: 556179750}
-  - {fileID: 1075406415}
-  - {fileID: 469772529}
-  - {fileID: 186317967}
-  - {fileID: 156952846}
-  - {fileID: 1674491699}
-  - {fileID: 777245478}
+  coinText: {fileID: 879986117}
+  scoreText: {fileID: 782826874}
+  deathText: {fileID: 2032149337}
+  fpsText: {fileID: 1320208804}
+  background: {fileID: 891073249}
+  audioSource: {fileID: 1208892998}
+  newHighScoreSound: {fileID: 8300000, guid: 07910e8e1724e1b4286b4d7c0bcd1fe8, type: 3}
+  uiSelectSound: {fileID: 8300000, guid: 823a75e223e939142857d2c51b80bc9a, type: 3}
+  difficulty: 0
+  highScore: 0
+  coin: 0
+  totalDeaths: 0
+  skill1Level: 0
+  obstaclesSpawnDelay: 0
+  showFpsOption: 0
+  spawnBirdsOption: 0
   birdsToPool:
   - {fileID: 108663892}
   - {fileID: 1366028574}
@@ -8446,26 +8443,28 @@ MonoBehaviour:
   - {fileID: 1105092982}
   - {fileID: 828943307}
   - {fileID: 15020733}
-  coinText: {fileID: 879986117}
-  timerText: {fileID: 1088196751}
-  scoreText: {fileID: 782826874}
-  deathText: {fileID: 2032149337}
-  fpsText: {fileID: 1320208804}
-  background: {fileID: 891073249}
+  obstaclesToPool:
+  - {fileID: 1956193242}
+  - {fileID: 556179750}
+  - {fileID: 1075406415}
+  - {fileID: 469772529}
+  - {fileID: 186317967}
+  - {fileID: 156952846}
+  - {fileID: 1674491699}
+  - {fileID: 777245478}
+  coinsToPool:
+  - {fileID: 739466608}
+  - {fileID: 1676299725}
+  - {fileID: 600442895}
+  - {fileID: 684585337}
+  - {fileID: 920120168}
+  - {fileID: 577520016}
+  - {fileID: 1825368085}
+  - {fileID: 705073221}
   sunMoonIcon: {fileID: 670697901}
-  audioSource: {fileID: 1208892998}
-  newHighScoreSound: {fileID: 8300000, guid: da1f6888a624a6c4787e5fd3c7386e6e, type: 3}
-  uiSelectSound: {fileID: 8300000, guid: 823a75e223e939142857d2c51b80bc9a, type: 3}
+  timerText: {fileID: 1088196751}
   minutes: 0
   hours: 12
-  score: 0
-  highScore: 0
-  coin: 0
-  currentCoins: 0
-  totalDeaths: 0
-  backgroundSelected: 0
-  skill1Level: 0
-  obstaclesSpawnDelay: 0
 --- !u!4 &1208892997
 Transform:
   m_ObjectHideFlags: 0
