@@ -2,11 +2,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.U2D;
 using TMPro;
-using static Constants;
+
 using VInspector;
+using static Constants;
 
 // Partial class for managing the shop menu, including buying and selecting cosmetics and skills
-public partial class MenuManager : MonoBehaviour
+public sealed partial class MenuManager : MonoBehaviour
 {
     [Tab("Shop Menu")]
     [SerializeField] SpriteAtlas spriteAtlas;

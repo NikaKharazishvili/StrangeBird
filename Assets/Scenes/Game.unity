@@ -8426,7 +8426,6 @@ MonoBehaviour:
   audioSource: {fileID: 1208892998}
   newHighScoreSound: {fileID: 8300000, guid: 07910e8e1724e1b4286b4d7c0bcd1fe8, type: 3}
   uiSelectSound: {fileID: 8300000, guid: 823a75e223e939142857d2c51b80bc9a, type: 3}
-  difficulty: 0
   highScore: 0
   coin: 0
   totalDeaths: 0
@@ -8463,8 +8462,6 @@ MonoBehaviour:
   - {fileID: 705073221}
   sunMoonIcon: {fileID: 670697901}
   timerText: {fileID: 1088196751}
-  minutes: 0
-  hours: 12
 --- !u!4 &1208892997
 Transform:
   m_ObjectHideFlags: 0
@@ -8592,8 +8589,12 @@ MonoBehaviour:
   audioSource: {fileID: 1208892998}
   hoverSound: {fileID: 8300000, guid: 51d9335205655044086222fed2ddde8e, type: 3}
   clickSound: {fileID: 8300000, guid: 823a75e223e939142857d2c51b80bc9a, type: 3}
-  pointerArrow: {fileID: 2800000, guid: 0ef95b5a672858442b46ada97c22bcdb, type: 3}
-  pointerHand: {fileID: 2800000, guid: 8219bfdc2f8e07c4087a040ba8777203, type: 3}
+  cursorArrow: {fileID: 2800000, guid: 0ef95b5a672858442b46ada97c22bcdb, type: 3}
+  cursorHand: {fileID: 2800000, guid: 8219bfdc2f8e07c4087a040ba8777203, type: 3}
+  buttons:
+  - {fileID: 1755696340}
+  - {fileID: 1788668916}
+  - {fileID: 1951896232}
 --- !u!1 &1224960603
 GameObject:
   m_ObjectHideFlags: 0
@@ -10979,7 +10980,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 2
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -11438,7 +11439,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -12259,7 +12260,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 3
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -13285,9 +13286,9 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 519420032}
+  - {fileID: 185906921}
+  - {fileID: 1863591228}
+  - {fileID: 7941426752726779905}
   - {fileID: 1473109890}
   - {fileID: 1617216952}
-  - {fileID: 185906921}
   - {fileID: 1208892997}
-  - {fileID: 7941426752726779905}
-  - {fileID: 1863591228}

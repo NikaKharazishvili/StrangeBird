@@ -1,8 +1,9 @@
 using UnityEngine;
 
 // Partial class for managing player event subscriptions and responses in the GameManager
-public partial class GameManager : MonoBehaviour
+public sealed partial class GameManager : MonoBehaviour
 {
+    // Registers handlers for player events (coin collection, death, respawn) to trigger corresponding game actions
     void SubscribeToPlayerEvents()
     {
         player.OnCoinTake += TakeCoin;

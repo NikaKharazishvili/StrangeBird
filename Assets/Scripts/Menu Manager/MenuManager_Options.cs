@@ -1,10 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+
 using VInspector;
 
 // Partial class for managing the options menu, including difficulty, sound, FPS display, and bird spawning
-public partial class MenuManager : MonoBehaviour
+public sealed partial class MenuManager : MonoBehaviour
 {
     [Tab("Options Menu")]
     [SerializeField] TextMeshProUGUI[] difficultyTexts;

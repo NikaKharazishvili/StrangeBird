@@ -1,4 +1,5 @@
 using UnityEngine;
+
 using static Constants;
 
 public sealed class Coin : Movable
